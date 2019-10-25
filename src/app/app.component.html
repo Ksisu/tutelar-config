@@ -1,5 +1,14 @@
 <div class="container">
   <mat-accordion>
-    <app-providers [expanded]="step === 0" (nextStep)="nextStep()" (opened)="setStep(0)"></app-providers>
+    <app-providers
+      [expanded]="step === 0"
+      (nextStep)="nextStep()"
+      (opened)="setStep(0)"
+      (selectedProviders)="selectedProviders = $event"></app-providers>
+    <app-password-difficulty-checker
+      [expanded]="step === 1"
+      (nextStep)="nextStep()"
+      (opened)="setStep(1)"
+      [selectedProviders]="selectedProviders"></app-password-difficulty-checker>
   </mat-accordion>
 </div>

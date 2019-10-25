@@ -8,6 +8,8 @@ import {Component} from '@angular/core';
 export class AppComponent {
   step = 0;
 
+  selectedProviders = [];
+
   setStep(index: number) {
     this.step = index;
   }
