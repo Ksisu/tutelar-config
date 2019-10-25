@@ -3,16 +3,18 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatExpansionModule, MatInputModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatExpansionModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {ProvidersComponent} from './providers/providers.component';
 import {FormsModule} from '@angular/forms';
 import {PasswordDifficultyCheckerComponent} from './password-difficulty-checker/password-difficulty-checker.component';
+import {SecretComponent} from './secret/secret.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProvidersComponent,
-    PasswordDifficultyCheckerComponent
+    PasswordDifficultyCheckerComponent,
+    SecretComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +24,7 @@ import {PasswordDifficultyCheckerComponent} from './password-difficulty-checker/
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
