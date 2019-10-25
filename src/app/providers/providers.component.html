@@ -1,0 +1,14 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Providers
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-checkbox *ngFor="let p of providers" [value]="p.id" [(ngModel)]="p.selected"
+                (change)="onChange()">{{p.label}}</mat-checkbox>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>
