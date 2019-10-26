@@ -26,6 +26,8 @@ export class SecretComponent implements OnInit {
 
   @Output() valueChange = new EventEmitter<SecretValue>();
 
+  @Input() disabled = false;
+
   secretFrom = 'file';
   secretPath = '';
   secretValue = '';
