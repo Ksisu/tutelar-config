@@ -10,15 +10,21 @@ export class AppComponent {
 
   selectedProviders = [];
 
+  modulesDisabledState = [
+    false,
+    false,
+    false // finish
+  ];
+
   setStep(index: number) {
     this.step = index;
   }
 
   nextStep() {
-    this.step++;
+    let nextStep = this.step;
+    while (this.modulesDisabledState[++nextStep]) {
+    }
+    this.step = nextStep;
   }
 
-  prevStep() {
-    this.step--;
-  }
 }

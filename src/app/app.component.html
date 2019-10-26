@@ -9,6 +9,8 @@
       [expanded]="step === 1"
       (nextStep)="nextStep()"
       (opened)="setStep(1)"
-      [selectedProviders]="selectedProviders"></app-password-difficulty-checker>
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[1] = $event"
+    ></app-password-difficulty-checker>
   </mat-accordion>
 </div>
