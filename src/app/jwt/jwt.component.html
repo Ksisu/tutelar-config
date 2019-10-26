@@ -1,0 +1,33 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      JWT - {{name}}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{desc}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Expiration time" [(ngModel)]="expirationTime" (change)="change()">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Algorithm</mat-label>
+    <mat-select [(ngModel)]="algorithm" (selectionChange)="change()">
+      <mat-optgroup label="Symmetric">
+        <mat-option *ngFor="let algo of symmetricAlgos" [value]="algo">{{algo}}</mat-option>
+      </mat-optgroup>
+      <mat-optgroup label="Asymmetric">
+        <mat-option *ngFor="let algo of asymmetricAlgos" [value]="algo">{{algo}}</mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <app-secret label="Secret" *ngIf="isSymmetric" [(value)]="secret" (valueChange)="change()"></app-secret>
+  <app-secret label="Private key" *ngIf="!isSymmetric" [(value)]="privateKey" (valueChange)="change()"></app-secret>
+  <app-secret label="Public key" *ngIf="!isSymmetric" [(value)]="publicKey" (valueChange)="change()"></app-secret>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

@@ -12,7 +12,12 @@ export class AppComponent {
   emailServiceValue;
   hookServiceValue;
 
+  shortTermJwt = {algorithm: 'RS512', expirationTime: '1h'};
+  longTermJwt = {algorithm: 'RS512', expirationTime: '1d'};
+
   modulesDisabledState = [
+    false,
+    false,
     false,
     false,
     false,

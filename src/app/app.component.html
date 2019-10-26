@@ -105,4 +105,20 @@
     (nextStep)="nextStep()"
     (opened)="setStep(14)"
   ></app-healthcheck>
+  <app-jwt
+    name="ShortTerm"
+    desc="(auth token)"
+    [(value)]="shortTermJwt"
+    [expanded]="step === 15"
+    (nextStep)="nextStep()"
+    (opened)="setStep(15)"
+  ></app-jwt>
+  <app-jwt
+    name="LongTerm"
+    desc="(refresh token)"
+    [(value)]="longTermJwt"
+    [expanded]="step === 16"
+    (nextStep)="nextStep()"
+    (opened)="setStep(16)"
+  ></app-jwt>
 </div>
