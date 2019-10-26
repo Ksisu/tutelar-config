@@ -35,5 +35,12 @@
       [selectedProviders]="selectedProviders"
       (disabled)="modulesDisabledState[4] = $event"
     ></app-ldap>
+    <app-oauth2
+      [expanded]="step === 5"
+      (nextStep)="nextStep()"
+      (opened)="setStep(5)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[5] = $event"
+    ></app-oauth2>
   </mat-accordion>
 </div>
