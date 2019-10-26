@@ -100,4 +100,9 @@
     [hookData]="hookServiceValue"
     (disabled)="modulesDisabledState[13] = $event"
   ></app-escher>
+  <app-healthcheck
+    [expanded]="step === 14"
+    (nextStep)="nextStep()"
+    (opened)="setStep(14)"
+  ></app-healthcheck>
 </div>

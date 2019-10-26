@@ -17,7 +17,6 @@ export class EscherComponent implements OnInit {
 
   @Input()
   set hookData(hookData: HookData) {
-    console.log('hk change', hookData);
     this._disabled = !hookData || !hookData.enabled || hookData.type !== 'escher';
     this.disabled.emit(this._disabled);
   }

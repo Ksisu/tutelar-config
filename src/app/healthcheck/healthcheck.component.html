@@ -1,0 +1,13 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      HealthCheck
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-checkbox>Enabled</mat-checkbox>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

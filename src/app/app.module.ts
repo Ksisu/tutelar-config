@@ -22,6 +22,7 @@ import {HookComponent} from './hook/hook.component';
 import {HookEscherComponent} from './hook-escher/hook-escher.component';
 import {HookBasicComponent} from './hook-basic/hook-basic.component';
 import {EscherComponent} from './escher/escher.component';
+import {HealthcheckComponent} from './healthcheck/healthcheck.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {EscherComponent} from './escher/escher.component';
     HookComponent,
     HookEscherComponent,
     HookBasicComponent,
-    EscherComponent
+    EscherComponent,
+    HealthcheckComponent
   ],
   imports: [
     BrowserModule,
