@@ -17,10 +17,16 @@ export class SecretComponent implements OnInit {
   @Input()
   set value(value: SecretValue) {
     this.secretFrom = value.from;
-    if (this.secretFrom === 'file') {
-      this.secretPath = value.value;
-    } else {
-      this.secretValue = value.value;
+    switch (this.secretFrom) {
+      case 'file':
+        this.secretPath = value.value;
+        break;
+      case 'config':
+        this.secretValue = value.value;
+        break;
+      case 'env':
+        this.envName = value.value;
+        break;
     }
   }
 
@@ -31,6 +37,7 @@ export class SecretComponent implements OnInit {
   secretFrom = 'file';
   secretPath = '';
   secretValue = '';
+  envName = '';
 
   constructor() {
   }
@@ -39,7 +46,18 @@ export class SecretComponent implements OnInit {
   }
 
   change() {
-    const value = this.secretFrom === 'file' ? this.secretPath : this.secretValue;
+    let value;
+    switch (this.secretFrom) {
+      case 'file':
+        value = this.secretPath;
+        break;
+      case 'config':
+        value = this.secretValue;
+        break;
+      case 'env':
+        value = this.envName;
+        break;
+    }
     const result = {from: this.secretFrom, value};
     this.valueChange.emit(result);
   }
