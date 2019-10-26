@@ -11,7 +11,7 @@ export class DatabaseComponent implements OnInit {
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
 
-  databaseType = 'postgres';
+  databaseType = 'memory';
 
   mongoValue = {
     uri: {from: 'file', value: ''},
