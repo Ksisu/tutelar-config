@@ -14,7 +14,17 @@ export class SecretComponent implements OnInit {
 
   @Input() label: string;
 
-  @Output() value = new EventEmitter<SecretValue>();
+  @Input()
+  set value(value: SecretValue) {
+    this.secretFrom = value.from;
+    if (this.secretFrom === 'file') {
+      this.secretPath = value.value;
+    } else {
+      this.secretValue = value.value;
+    }
+  }
+
+  @Output() valueChange = new EventEmitter<SecretValue>();
 
   secretFrom = 'file';
   secretPath = '';
@@ -29,7 +39,7 @@ export class SecretComponent implements OnInit {
   change() {
     const value = this.secretFrom === 'file' ? this.secretPath : this.secretValue;
     const result = {from: this.secretFrom, value};
-    this.value.emit(result);
+    this.valueChange.emit(result);
   }
 
 }
