@@ -70,4 +70,11 @@
       (disabled)="modulesDisabledState[8] = $event"
     ></app-oauth2-provider>
   </mat-accordion>
+  <app-totp
+    [expanded]="step === 9"
+    (nextStep)="nextStep()"
+    (opened)="setStep(9)"
+    [selectedProviders]="selectedProviders"
+    (disabled)="modulesDisabledState[9] = $event"
+  ></app-totp>
 </div>

@@ -1,0 +1,28 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      TOTP
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <mat-label>Algorithm</mat-label>
+    <mat-select [(ngModel)]="algorithm">
+      <mat-option *ngFor="let algo of algorithms" [value]="algo">{{algo}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Window" value="1">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Period" value="30s">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Digits" value="6">
+  </mat-form-field>
+  <mat-checkbox>Start from current time</mat-checkbox>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>
