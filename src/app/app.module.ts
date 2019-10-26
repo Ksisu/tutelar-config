@@ -21,6 +21,7 @@ import {CallbackComponent} from './callback/callback.component';
 import {HookComponent} from './hook/hook.component';
 import {HookEscherComponent} from './hook-escher/hook-escher.component';
 import {HookBasicComponent} from './hook-basic/hook-basic.component';
+import {EscherComponent} from './escher/escher.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {HookBasicComponent} from './hook-basic/hook-basic.component';
     CallbackComponent,
     HookComponent,
     HookEscherComponent,
-    HookBasicComponent
+    HookBasicComponent,
+    EscherComponent
   ],
   imports: [
     BrowserModule,

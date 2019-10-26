@@ -1,0 +1,33 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Escher
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Credential scope" value="eu/tutelar/request">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Auth header name" value="X-Escher-Auth">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Date header name" value="X-Escher-Date">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Algo prefix" value="ESR">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Vendor key" value="Escher">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Hostname" value="">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Port" value="">
+  </mat-form-field>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

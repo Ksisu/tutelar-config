@@ -93,4 +93,11 @@
     (opened)="setStep(12)"
     [(value)]="hookServiceValue"
   ></app-hook>
+  <app-escher
+    [expanded]="step === 13"
+    (nextStep)="nextStep()"
+    (opened)="setStep(13)"
+    [hookData]="hookServiceValue"
+    (disabled)="modulesDisabledState[13] = $event"
+  ></app-escher>
 </div>
