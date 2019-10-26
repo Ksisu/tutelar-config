@@ -17,6 +17,7 @@ import {TotpComponent} from './totp/totp.component';
 import {DatabaseComponent} from './database/database.component';
 import {DatabasePostgresComponent} from './database-postgres/database-postgres.component';
 import {DatabaseMongodbComponent} from './database-mongodb/database-mongodb.component';
+import {CallbackComponent} from './callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {DatabaseMongodbComponent} from './database-mongodb/database-mongodb.comp
     TotpComponent,
     DatabaseComponent,
     DatabasePostgresComponent,
-    DatabaseMongodbComponent
+    DatabaseMongodbComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
