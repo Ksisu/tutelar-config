@@ -1,0 +1,4 @@
+<mat-form-field class="full-width">
+  <input matInput placeholder="Username" [(ngModel)]="value.username" [disabled]="disabled">
+</mat-form-field>
+<app-secret [label]="'Password'" [(value)]="value.password" [disabled]="disabled"></app-secret>

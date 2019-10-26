@@ -18,6 +18,9 @@ import {DatabaseComponent} from './database/database.component';
 import {DatabasePostgresComponent} from './database-postgres/database-postgres.component';
 import {DatabaseMongodbComponent} from './database-mongodb/database-mongodb.component';
 import {CallbackComponent} from './callback/callback.component';
+import {HookComponent} from './hook/hook.component';
+import {HookEscherComponent} from './hook-escher/hook-escher.component';
+import {HookBasicComponent} from './hook-basic/hook-basic.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import {CallbackComponent} from './callback/callback.component';
     DatabaseComponent,
     DatabasePostgresComponent,
     DatabaseMongodbComponent,
-    CallbackComponent
+    CallbackComponent,
+    HookComponent,
+    HookEscherComponent,
+    HookBasicComponent
   ],
   imports: [
     BrowserModule,

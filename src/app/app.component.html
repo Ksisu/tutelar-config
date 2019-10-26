@@ -87,4 +87,10 @@
     (nextStep)="nextStep()"
     (opened)="setStep(11)"
   ></app-callback>
+  <app-hook
+    [expanded]="step === 12"
+    (nextStep)="nextStep()"
+    (opened)="setStep(12)"
+    [(value)]="hookServiceValue"
+  ></app-hook>
 </div>

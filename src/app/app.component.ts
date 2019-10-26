@@ -10,8 +10,10 @@ export class AppComponent {
 
   selectedProviders = [];
   emailServiceValue;
+  hookServiceValue;
 
   modulesDisabledState = [
+    false,
     false,
     false,
     false,

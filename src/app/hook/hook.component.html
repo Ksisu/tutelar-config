@@ -1,0 +1,26 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Hook service &nbsp;<i *ngIf="!enabled">(disabled)</i>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-checkbox [(ngModel)]="enabled" (change)="change()">Enabled</mat-checkbox>
+
+  <mat-form-field class="full-width">
+    <mat-label>Authentication</mat-label>
+    <mat-select [(ngModel)]="authType" [disabled]="!enabled" (selectionChange)="change()">
+      <mat-option [value]="'basic'">Basic (User-Pass)</mat-option>
+      <mat-option [value]="'escher'">Escher</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <app-hook-basic [(value)]="basicData" *ngIf="authType === 'basic'" (valueChange)="change()"
+                  [disabled]="!enabled"></app-hook-basic>
+  <app-hook-escher [(value)]="escherData" *ngIf="authType === 'escher'" (valueChange)="change()"
+                   [disabled]="!enabled"></app-hook-escher>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>
