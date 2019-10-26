@@ -12,6 +12,7 @@ import {EmailComponent} from './email/email.component';
 import {AmqpComponent} from './amqp/amqp.component';
 import {LdapComponent} from './ldap/ldap.component';
 import {Oauth2Component} from './oauth2/oauth2.component';
+import {Oauth2ProviderComponent} from './oauth2-provider/oauth2-provider.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {Oauth2Component} from './oauth2/oauth2.component';
     EmailComponent,
     AmqpComponent,
     LdapComponent,
-    Oauth2Component
+    Oauth2Component,
+    Oauth2ProviderComponent
   ],
   imports: [
     BrowserModule,

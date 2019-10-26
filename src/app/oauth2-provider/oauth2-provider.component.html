@@ -1,0 +1,19 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{name}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Client ID" value="">
+  </mat-form-field>
+  <app-secret [label]="'Client secret'"></app-secret>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Scope" [value]="defaultScopes">
+  </mat-form-field>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

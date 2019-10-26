@@ -42,5 +42,32 @@
       [selectedProviders]="selectedProviders"
       (disabled)="modulesDisabledState[5] = $event"
     ></app-oauth2>
+    <app-oauth2-provider
+      [name]="'GitHub'"
+      [defaultScopes]="'read:user,gist'"
+      [expanded]="step === 6"
+      (nextStep)="nextStep()"
+      (opened)="setStep(6)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[6] = $event"
+    ></app-oauth2-provider>
+    <app-oauth2-provider
+      [name]="'Facebook'"
+      [defaultScopes]="'public_profile'"
+      [expanded]="step === 7"
+      (nextStep)="nextStep()"
+      (opened)="setStep(7)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[7] = $event"
+    ></app-oauth2-provider>
+    <app-oauth2-provider
+      [name]="'Google'"
+      [defaultScopes]="'openid,email,profile'"
+      [expanded]="step === 8"
+      (nextStep)="nextStep()"
+      (opened)="setStep(8)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[8] = $event"
+    ></app-oauth2-provider>
   </mat-accordion>
 </div>
