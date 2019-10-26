@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {PasswordDifficultyCheckerComponent} from './password-difficulty-checker/password-difficulty-checker.component';
 import {SecretComponent} from './secret/secret.component';
 import {EmailComponent} from './email/email.component';
+import {AmqpComponent} from './amqp/amqp.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {EmailComponent} from './email/email.component';
     ProvidersComponent,
     PasswordDifficultyCheckerComponent,
     SecretComponent,
-    EmailComponent
+    EmailComponent,
+    AmqpComponent
   ],
   imports: [
     BrowserModule,

@@ -20,5 +20,13 @@
       (disabled)="modulesDisabledState[2] = $event"
       (value)="emailServiceValue = $event"
     ></app-email>
+    <app-amqp
+      [expanded]="step === 3"
+      (nextStep)="nextStep()"
+      (opened)="setStep(3)"
+      [selectedProviders]="selectedProviders"
+      [emailServiceValue]="emailServiceValue"
+      (disabled)="modulesDisabledState[3] = $event"
+    ></app-amqp>
   </mat-accordion>
 </div>

@@ -39,6 +39,7 @@ export class EmailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.change();
   }
 
   change() {
