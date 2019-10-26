@@ -28,5 +28,12 @@
       [emailServiceValue]="emailServiceValue"
       (disabled)="modulesDisabledState[3] = $event"
     ></app-amqp>
+    <app-ldap
+      [expanded]="step === 4"
+      (nextStep)="nextStep()"
+      (opened)="setStep(4)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[4] = $event"
+    ></app-ldap>
   </mat-accordion>
 </div>

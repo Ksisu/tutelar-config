@@ -10,6 +10,7 @@ import {PasswordDifficultyCheckerComponent} from './password-difficulty-checker/
 import {SecretComponent} from './secret/secret.component';
 import {EmailComponent} from './email/email.component';
 import {AmqpComponent} from './amqp/amqp.component';
+import {LdapComponent} from './ldap/ldap.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {AmqpComponent} from './amqp/amqp.component';
     PasswordDifficultyCheckerComponent,
     SecretComponent,
     EmailComponent,
-    AmqpComponent
+    AmqpComponent,
+    LdapComponent
   ],
   imports: [
     BrowserModule,

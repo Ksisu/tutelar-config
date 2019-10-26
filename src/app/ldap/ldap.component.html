@@ -1,0 +1,32 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      LDAP / AD
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="URL" value="ldap://localhost:389">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Readonly User" value="cn=readonly,dc=wanari,dc=com">
+  </mat-form-field>
+  <app-secret [label]="'Readonly User password'"></app-secret>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="User search base domain" value="ou=users,dc=wanari,dc=com">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="User search attribute:" value="cn">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="User return single type attributes:" value="cn,sn,givenName">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="User return array type attributes:" value="memberof">
+  </mat-form-field>
+
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>
