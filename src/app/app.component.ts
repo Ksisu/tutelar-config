@@ -22,6 +22,7 @@ export class AppComponent {
     false,
     false,
     false,
+    false,
     false // finish
   ];
 

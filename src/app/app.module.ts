@@ -14,6 +14,9 @@ import {LdapComponent} from './ldap/ldap.component';
 import {Oauth2Component} from './oauth2/oauth2.component';
 import {Oauth2ProviderComponent} from './oauth2-provider/oauth2-provider.component';
 import {TotpComponent} from './totp/totp.component';
+import {DatabaseComponent} from './database/database.component';
+import {DatabasePostgresComponent} from './database-postgres/database-postgres.component';
+import {DatabaseMongodbComponent} from './database-mongodb/database-mongodb.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import {TotpComponent} from './totp/totp.component';
     LdapComponent,
     Oauth2Component,
     Oauth2ProviderComponent,
-    TotpComponent
+    TotpComponent,
+    DatabaseComponent,
+    DatabasePostgresComponent,
+    DatabaseMongodbComponent
   ],
   imports: [
     BrowserModule,

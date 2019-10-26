@@ -77,4 +77,9 @@
     [selectedProviders]="selectedProviders"
     (disabled)="modulesDisabledState[9] = $event"
   ></app-totp>
+  <app-database
+    [expanded]="step === 10"
+    (nextStep)="nextStep()"
+    (opened)="setStep(10)"
+  ></app-database>
 </div>
