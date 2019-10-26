@@ -12,5 +12,13 @@
       [selectedProviders]="selectedProviders"
       (disabled)="modulesDisabledState[1] = $event"
     ></app-password-difficulty-checker>
+    <app-email
+      [expanded]="step === 2"
+      (nextStep)="nextStep()"
+      (opened)="setStep(2)"
+      [selectedProviders]="selectedProviders"
+      (disabled)="modulesDisabledState[2] = $event"
+      (value)="emailServiceValue = $event"
+    ></app-email>
   </mat-accordion>
 </div>

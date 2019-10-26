@@ -8,13 +8,15 @@ import {ProvidersComponent} from './providers/providers.component';
 import {FormsModule} from '@angular/forms';
 import {PasswordDifficultyCheckerComponent} from './password-difficulty-checker/password-difficulty-checker.component';
 import {SecretComponent} from './secret/secret.component';
+import {EmailComponent} from './email/email.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProvidersComponent,
     PasswordDifficultyCheckerComponent,
-    SecretComponent
+    SecretComponent,
+    EmailComponent
   ],
   imports: [
     BrowserModule,

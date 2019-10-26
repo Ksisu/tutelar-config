@@ -1,0 +1,31 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Email service
+    </mat-panel-title>
+    <mat-panel-description>
+      (for Email-Pass)
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <mat-form-field class="full-width">
+    <mat-label>Type</mat-label>
+    <mat-select [(ngModel)]="serviceType" (selectionChange)="change()">
+      <mat-option [value]="'amqp'">AMQP</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
+    <input matInput placeholder="Routing key" [(ngModel)]="amqpRoutingKey" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
+    <input matInput placeholder="Exchange" [(ngModel)]="amqpExchange" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
+    <input matInput placeholder="Buffer size" [(ngModel)]="amqpBufferSize" (change)="change()">
+  </mat-form-field>
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

@@ -9,8 +9,10 @@ export class AppComponent {
   step = 0;
 
   selectedProviders = [];
+  emailServiceValue;
 
   modulesDisabledState = [
+    false,
     false,
     false,
     false // finish

@@ -30,7 +30,6 @@ export class SecretComponent implements OnInit {
     const value = this.secretFrom === 'file' ? this.secretPath : this.secretValue;
     const result = {from: this.secretFrom, value};
     this.value.emit(result);
-    console.log(result);
   }
 
 }
