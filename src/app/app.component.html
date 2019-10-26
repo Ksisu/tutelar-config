@@ -121,4 +121,26 @@
     (nextStep)="nextStep()"
     (opened)="setStep(16)"
   ></app-jwt>
+  <app-jwt-for-provider
+    provider="email"
+    name="Email Provider"
+    desc="(for Email-Pass)"
+    [(value)]="emailJwt"
+    [expanded]="step === 17"
+    (nextStep)="nextStep()"
+    (opened)="setStep(17)"
+    (disabled)="modulesDisabledState[17] = $event"
+    [selectedProviders]="selectedProviders"
+  ></app-jwt-for-provider>
+  <app-jwt-for-provider
+    provider="totp"
+    name="TOTP Provider"
+    desc="(for TOTP)"
+    [(value)]="totpJwt"
+    [expanded]="step === 18"
+    (nextStep)="nextStep()"
+    (opened)="setStep(18)"
+    (disabled)="modulesDisabledState[18] = $event"
+    [selectedProviders]="selectedProviders"
+  ></app-jwt-for-provider>
 </div>

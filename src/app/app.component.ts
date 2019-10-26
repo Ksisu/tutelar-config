@@ -14,8 +14,12 @@ export class AppComponent {
 
   shortTermJwt = {algorithm: 'RS512', expirationTime: '1h'};
   longTermJwt = {algorithm: 'RS512', expirationTime: '1d'};
+  emailJwt = {algorithm: 'HS256', expirationTime: '30m'};
+  totpJwt = {algorithm: 'HS256', expirationTime: '10m'};
 
   modulesDisabledState = [
+    false,
+    false,
     false,
     false,
     false,

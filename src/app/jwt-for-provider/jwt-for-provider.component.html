@@ -1,0 +1,10 @@
+<app-jwt
+  [name]="name"
+  [desc]="desc"
+  [value]="value"
+  (valueChange)="valueChange.emit($event)"
+  [expanded]="expanded"
+  (nextStep)="nextStep.emit($event)"
+  (opened)="opened.emit($event)"
+  [disabled]="_disabled"
+></app-jwt>
