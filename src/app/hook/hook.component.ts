@@ -41,6 +41,17 @@ export class HookComponent implements OnInit {
   @Output() valueChange = new EventEmitter<HookData>();
 
   enabled = false;
+  hooks = [
+    {id: 'register', label: 'Register', selected: false},
+    {id: 'login', label: 'Login', selected: false},
+    {id: 'modify', label: 'Modify', selected: false},
+    {id: 'link', label: 'Link', selected: false},
+    {id: 'unlink', label: 'Unlink', selected: false},
+    {id: 'delete', label: 'Delete', selected: false},
+    {id: 'refresh', label: 'Token refresh', selected: false},
+  ];
+
+  baseUrl = 'https://';
 
   authType = 'basic';
   basicData = {

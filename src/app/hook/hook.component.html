@@ -7,11 +7,19 @@
 
   <mat-checkbox [(ngModel)]="enabled" (change)="change()">Enabled</mat-checkbox>
 
+  <mat-checkbox [disabled]="!enabled" *ngFor="let h of hooks" [value]="h.id" [(ngModel)]="h.selected"
+                (change)="change()">{{h.label}}</mat-checkbox>
+
+  <mat-form-field class="full-width">
+    <input [disabled]="!enabled" matInput placeholder="Base url" [(ngModel)]="baseUrl">
+  </mat-form-field>
+
   <mat-form-field class="full-width">
     <mat-label>Authentication</mat-label>
     <mat-select [(ngModel)]="authType" [disabled]="!enabled" (selectionChange)="change()">
       <mat-option [value]="'basic'">Basic (User-Pass)</mat-option>
       <mat-option [value]="'escher'">Escher</mat-option>
+      <mat-option [value]="'jwt'">JWT</mat-option>
     </mat-select>
   </mat-form-field>
 

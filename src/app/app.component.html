@@ -143,4 +143,13 @@
     (disabled)="modulesDisabledState[18] = $event"
     [selectedProviders]="selectedProviders"
   ></app-jwt-for-provider>
+  <app-jwt
+    name="HOOK"
+    desc="(hook service auth)"
+    [expanded]="step === 19"
+    (nextStep)="nextStep()"
+    (opened)="setStep(19)"
+    [disabled]="modulesDisabledState[19]"
+    [(value)]="hookJwt"
+  ></app-jwt>
 </div>
