@@ -12,17 +12,56 @@
     <mat-label>Type</mat-label>
     <mat-select [(ngModel)]="serviceType" (selectionChange)="change()">
       <mat-option [value]="'amqp'">AMQP</mat-option>
+      <mat-option [value]="'smtp'">SMTP</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
-    <input matInput placeholder="Routing key" [(ngModel)]="amqpRoutingKey" (change)="change()">
-  </mat-form-field>
-  <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
-    <input matInput placeholder="Exchange" [(ngModel)]="amqpExchange" (change)="change()">
+    <input matInput placeholder="Queue Name" [(ngModel)]="amqpQueueName" (change)="change()">
   </mat-form-field>
   <mat-form-field *ngIf="serviceType === 'amqp'" class="full-width">
     <input matInput placeholder="Buffer size" [(ngModel)]="amqpBufferSize" (change)="change()">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Hostname" [(ngModel)]="host" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Port" [(ngModel)]="port" (change)="change()">
+  </mat-form-field>
+  <mat-checkbox *ngIf="serviceType === 'smtp'" [value]="ssl" [(ngModel)]="ssl" (change)="change()">Use SSL</mat-checkbox>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Username" [(ngModel)]="username" (change)="change()">
+  </mat-form-field>
+  <app-secret *ngIf="serviceType === 'smtp'" [label]="'Password'" [(value)]="password" class="full-width"></app-secret>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Sender address" [(ngModel)]="senderAddress" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Register email title" [(ngModel)]="registerTitle" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <mat-label>Register email body</mat-label>
+    <textarea
+      [(ngModel)]="registerBody"
+      matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <input matInput placeholder="Reset password email title" [(ngModel)]="resetPasswordTitle" (change)="change()">
+  </mat-form-field>
+  <mat-form-field *ngIf="serviceType === 'smtp'" class="full-width">
+    <mat-label>Reset password email body</mat-label>
+    <textarea
+      [(ngModel)]="resetPasswordBody"
+      matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
   </mat-form-field>
 
   <mat-action-row>

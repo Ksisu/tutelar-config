@@ -2,8 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 export interface EmailValue {
   serviceType: string;
-  amqpRoutingKey?: string;
-  amqpExchange?: string;
+  amqpQueueName?: string;
   amqpBufferSize?: string;
 }
 
@@ -31,9 +30,20 @@ export class EmailComponent implements OnInit {
   @Output() value = new EventEmitter<EmailValue>();
 
   serviceType = 'amqp';
-  amqpRoutingKey = 'tutelar_email';
-  amqpExchange = 'amq.topic';
+  amqpQueueName = 'tutelar_email';
   amqpBufferSize = '100';
+
+  host = 'localhost';
+  port = 1025;
+  ssl = false;
+  username = '';
+  password = '';
+  senderAddress = 'no-reply@tutelar';
+  registerTitle = '[Tutelar] Register';
+  registerBody = 'Hello!\n<br/>\n<a href=\'https://lvh.me:9443/index.html?registerToken=<<TOKEN>>\'>Click here to register!</a>';
+  resetPasswordTitle = '[Tutelar] Reset password';
+  // tslint:disable-next-line:max-line-length
+  resetPasswordBody = 'Hello!\n<br/>\n<a href=\'https://lvh.me:9443/index.html?resetPasswordToken=<<TOKEN>>\'>Click here to reset password!</a>';
 
   constructor() {
   }
@@ -45,8 +55,7 @@ export class EmailComponent implements OnInit {
   change() {
     const result = {
       serviceType: this.serviceType,
-      amqpRoutingKey: this.amqpRoutingKey,
-      amqpExchange: this.amqpExchange,
+      amqpQueueName: this.amqpQueueName,
       amqpBufferSize: this.amqpBufferSize
     };
     this.value.emit(result);
