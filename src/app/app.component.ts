@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     selectedProviders: [],
     passwordDifficultyCheckerRegexPattern: '',
     emailService: {} as any,
-    amqpUri: '',
+    amqpUri: {from: 'file', value: ''},
     ldap: {} as any,
     oauth2RootUrl: '',
     oauth2: {
@@ -161,5 +161,340 @@ export class AppComponent implements OnInit {
     // TOTP JWT
     this.modulesDisabledState[19] =
       this.model.selectedProviders.indexOf('totp') === -1;
+  }
+
+  generateConfig() {
+    this.refresh();
+    let result = '';
+    result += this.generateModulesEnabledConfig();
+    result += this.generateDatabaseConfig();
+    result += this.generateJwtConfig();
+    result += this.generateCallbackConfig();
+    result += this.generateEscherConfig();
+    result += this.generateHookConfig();
+    result += this.generateAmqpConfig();
+    result += this.generateOauth2Config();
+    result += this.generateLdapConfig();
+    result += this.generateUserpassConfig();
+    result += this.generateTotpConfig();
+    result += this.generateTracerConfig();
+    result += this.generateAkkaConfig();
+    console.log(result);
+  }
+
+  generateModulesEnabledConfig() {
+    const result = this.model.selectedProviders.join(',') + (this.model.healthCheckEnabled ? ',health' : '');
+    return `modulesEnabled = "${result}"\n`;
+  }
+
+  generateSecretConfig(name: string, secret: SecretValue) {
+    switch (secret.from) {
+      case 'file':
+        return `${name}File = "${secret.value}"`;
+      case 'config':
+        return `${name} = "${secret.value}"`;
+      case 'env':
+        return `${name} = \${"${secret.value}}"`;
+    }
+  }
+
+  generateDatabaseConfig() {
+    const type = this.model.database.databaseType;
+    let result = 'database {\n' +
+      `  type = ${type}\n`;
+    switch (type) {
+      case 'mongo':
+        result += '  mongo {\n' +
+          '    ' + this.generateSecretConfig('uri', this.model.database.value.uri) + '\n' +
+          `    collection = "${this.model.database.value.collectionName}"\n` +
+          '  }\n';
+        break;
+      case 'postgres':
+        result += '  postgres {\n' +
+          '    driver = "org.postgresql.Driver"\n' +
+          '    ' + this.generateSecretConfig('uri', this.model.database.value.url) + '\n' +
+          `    numThreads = ${this.model.database.value.numberOfThreads}\n` +
+          `    maximumPoolSize = ${this.model.database.value.maxPoolSize}\n` +
+          '    connectionPool = "HikariCP"\n' +
+          '  }\n';
+        break;
+      default:
+    }
+    result += '}\n';
+    return result;
+  }
+
+  generateOneJwtConfig(name: string, config: JwtData) {
+    let result = `  ${name} {\n`;
+    result += `    expirationTime = "${config.expirationTime}"\n` +
+      `    algorithm = "${config.algorithm}"\n`;
+
+    if (JwtComponent.isSymmetric(config.algorithm)) {
+      result += '    ' + this.generateSecretConfig('secret', config.secret) + '\n';
+    } else {
+      result += '    ' + this.generateSecretConfig('privateKey', config.privateKey) + '\n';
+      result += '    ' + this.generateSecretConfig('publicKey', config.publicKey) + '\n';
+    }
+    result += '  }\n';
+    return result;
+  }
+
+  generateJwtConfig() {
+    let result = 'jwt {\n';
+    result += this.generateOneJwtConfig('shortTerm', this.model.jwt.shortTerm);
+    result += this.generateOneJwtConfig('longTerm', this.model.jwt.longTerm);
+    // Email
+    if (!this.modulesDisabledState[18]) {
+      result += this.generateOneJwtConfig('emailProvider', this.model.jwt.email);
+    }
+    // TOTP
+    if (!this.modulesDisabledState[19]) {
+      result += this.generateOneJwtConfig('totpProvider', this.model.jwt.totp);
+    }
+    // Hook
+    if (!this.modulesDisabledState[13]) {
+      result += this.generateOneJwtConfig('hook', this.model.jwt.hook);
+    }
+    result += '}\n';
+    return result;
+  }
+
+  generateCallbackConfig() {
+    let result = '';
+    result += 'callback {\n';
+    result += `  success = "${this.model.callback.success}"\n`;
+    result += `  failure = "${this.model.callback.failure}"\n`;
+    result += '}\n';
+    return result;
+  }
+
+  generateEscherConfig() {
+    const hookEscher = this.model.hook.enabled && this.model.hook.type === 'escher';
+    const ldapApiEscher = false; // TODO
+
+    if (!hookEscher && !ldapApiEscher) {
+      return '';
+    }
+
+    let result = '';
+    result += 'escher {\n';
+    result += `  credential-scope = "${this.model.escher.credentialScope}"\n`;
+    result += `  auth-header-name = "${this.model.escher.authHeaderName}"\n`;
+    result += `  date-header-name = "${this.model.escher.dateHeaderName}"\n`;
+    result += `  headers-to-sign = ["host", "${this.model.escher.dateHeaderName}"]\n`;
+    result += `  headers-to-sign = ["host", "${this.model.escher.dateHeaderName}"]\n`;
+    result += `  headers-to-sign = ["host", "${this.model.escher.dateHeaderName}"]\n`;
+    result += `  algo-prefix = "${this.model.escher.algoPrefix}"\n`;
+    result += `  vendor-key = "${this.model.escher.vendorKey}"\n`;
+    result += `  hostname = "${this.model.escher.hostname}"\n`;
+    result += `  port = "${this.model.escher.port}"\n`;
+    result += '  trusted-services = [\n';
+    if (hookEscher) {
+      result += '    {\n';
+      result += `      name = "hook"\n`;
+      result += `      key = "${this.model.hook.data.key}"\n`;
+      result += '      ' + this.generateSecretConfig('secret', this.model.hook.data.secret) + '\n';
+      result += `      credential-scope = "${this.model.hook.data.scope}"\n`;
+      result += '    }';
+    }
+    result += (hookEscher && ldapApiEscher) ? ',\n' : '\n';
+    if (ldapApiEscher) {
+      result += '    {\n';
+      result += `      name = "ldap-api"\n`;
+      result += `      key = "${this.model.hook.data.key}"\n`; // TODO
+      result += '      ' + this.generateSecretConfig('secret', this.model.hook.data.secret) + '\n'; // TODO
+      result += `      credential-scope = "${this.model.hook.data.scope}"\n`;  // TODO
+      result += '    }';
+    }
+    result += '  ]\n';
+    result += '}\n';
+    return result;
+  }
+
+  generateHookConfig() {
+    if (!this.model.hook.enabled) {
+      return 'hook {\n  baseUrl = ""\n}\n';
+    }
+    let result = '';
+    result += 'hook {\n';
+    result += `  baseUrl = "${this.model.hook.baseUrl}"\n`;
+    result += `  enabled = "${this.model.hook.enabledHooks.join(',')}"\n`;
+    result += `  authType = "${this.model.hook.type}"\n`;
+    if (this.model.hook.type === 'basic') {
+      result += '  basicAuth {\n';
+      result += `    username = "${this.model.hook.data.username}"\n`;
+      result += '    ' + this.generateSecretConfig('password', this.model.hook.data.password) + '\n';
+      result += '  }\n';
+    }
+    result += '}\n';
+    return result;
+  }
+
+  generateAmqpConfig() {
+    if (this.amqpComp.disabled) {
+      return '';
+    }
+    let result = '';
+    result += 'amqp {\n';
+    result += '  ' + this.generateSecretConfig('password', this.model.amqpUri) + '\n';
+    result += '}\n';
+    return result;
+  }
+
+  generateTracerConfig() {
+    return 'tracer {\n  client = "off"\n}\n'; // TODO
+  }
+
+  generateOneOauth2Config(name: string, data) {
+    let result = '';
+    result += `  ${name} {\n`;
+    result += `    clientId = "${data.clientId}"\n`;
+    result += '    ' + this.generateSecretConfig('clientSecret', data.clientSecret) + '\n';
+    result += `    scopes = "${data.scopes}"\n`;
+    result += '  }\n';
+    return result;
+  }
+
+  generateOauth2Config() {
+    const githubEnabled = !this.oauth2GithubComp.disabled;
+    const facebookEnabled = !this.oauth2FacebookComp.disabled;
+    const googleEnabled = !this.oauth2GoogleComp.disabled;
+
+    if (!githubEnabled && !facebookEnabled && !googleEnabled) {
+      return '';
+    }
+
+    let result = '';
+    result += 'oauth2 {\n';
+    result += `  rootUrl = "${this.model.oauth2RootUrl}"\n`;
+    if (githubEnabled) {
+      result += this.generateOneOauth2Config('github', this.model.oauth2.github);
+    }
+    if (facebookEnabled) {
+      result += this.generateOneOauth2Config('facebook', this.model.oauth2.facebook);
+    }
+    if (googleEnabled) {
+      result += this.generateOneOauth2Config('google', this.model.oauth2.google);
+    }
+    result += '}\n';
+    return result;
+  }
+
+  generateLdapConfig() {
+    if (this.ldapComp.disabled) {
+      return '';
+    }
+    const ldapApiEnabled = false; // TODO
+
+    let result = '';
+    result += 'ldap {\n';
+    result += `  url = "${this.model.ldap.url}"\n`;
+    result += `  readonlyUserWithNamespace = "${this.model.ldap.user}"\n`;
+    result += '  ' + this.generateSecretConfig('readonlyUserPassword', this.model.ldap.password) + '\n';
+    result += `  userSearchBaseDomain = "${this.model.ldap.userSearchBaseDomain}"\n`;
+    result += `  userSearchAttribute = "${this.model.ldap.searchAttribute}"\n`;
+    result += `  userSearchReturnAttributes = "${this.model.ldap.singleReturnAttribute}"\n`;
+    result += `  userSearchReturnArrayAttributes = "${this.model.ldap.singleReturnAttribute}"\n`;
+    /*
+
+  ldapApi {
+    // basic, escher
+    auth = "escher"
+    auth = ${?LDAP_API_AUTH}
+    basic {
+      username = ""
+      username = ${?LDAP_API_BASIC_USERNAME}
+      password = ""
+      password = ${?LDAP_API_BASIC_PASSWORD}
+      passwordFile = ${?LDAP_API_BASIC_PASSWORD_FILE}
+    }
+    escher {
+      trustedServices = "ldap-api"
+      trustedServices = ${?LDAP_API_ESCHER_TRUSTED_SERVICES}
+    }
+  }
+}
+    */ // TODO
+
+    result += '}\n';
+    return result;
+  }
+
+  generateUserpassConfig() {
+    const basicEnabled = this.model.selectedProviders.indexOf('user') !== -1;
+    const emailEnabled = this.model.selectedProviders.indexOf('email') !== -1;
+
+    if (!basicEnabled && !emailEnabled) {
+      return '';
+    }
+
+    let result = '';
+    result += 'userpass {\n';
+    result += '  passwordDifficulty {\n';
+    result += `    pattern = "${this.model.passwordDifficultyCheckerRegexPattern}"\n`;
+    result += '  }\n';
+    if (emailEnabled) {
+      result += '  email {\n';
+      result += `    type = "${this.model.emailService.serviceType}"\n`;
+      switch (this.model.emailService.serviceType) {
+        case 'smtp':
+          result += '    smtp {\n';
+          result += `      host = "${this.model.emailService.host}"\n`;
+          result += `      port = "${this.model.emailService.port}"\n`;
+          result += `      ssl = ${this.model.emailService.ssl.toString()}\n`;
+          result += `      username = "${this.model.emailService.username}"\n`;
+          result += `      password = "${this.model.emailService.password}"\n`;
+          result += `      template {\n`;
+          result += `        senderAddress = "${this.model.emailService.senderAddress}"\n`;
+          result += `        registerTitle = "${this.model.emailService.registerTitle}"\n`;
+          result += `        registerBody = "${this.model.emailService.registerBody.replace('\n', '')}"\n`;
+          result += `        resetPasswordTitle = "${this.model.emailService.resetPasswordTitle}"\n`;
+          result += `        resetPasswordBody = "${this.model.emailService.resetPasswordBody.replace('\n', '')}"\n`;
+          result += `      }\n`;
+          result += '    }\n';
+          break;
+        case 'amqp':
+          result += '    amqp {\n';
+          // TODO
+          result += '    }\n';
+          break;
+        default:
+      }
+      result += '  }\n';
+    }
+    result += '}\n';
+    return result;
+  }
+
+  generateTotpConfig() {
+    if (this.totpComp.disabled) {
+      return '';
+    }
+
+    let result = '';
+    result += 'totp {\n';
+    result += `  algorithm = "${this.model.totp.algorithm}"\n`;
+    result += `  window = "${this.model.totp.window}"\n`;
+    result += `  period = "${this.model.totp.period}"\n`;
+    result += `  digits = "${this.model.totp.digits}"\n`;
+    result += `  startFromCurrentTime = ${this.model.totp.startFromCurrentTime.toString()}\n`;
+    result += '}\n';
+    return result;
+  }
+
+  generateAkkaConfig() {
+    return 'akka {\n' +
+      '  loggers = ["akka.event.slf4j.Slf4jLogger"]\n' +
+      '  loglevel = "DEBUG"\n' +
+      '  logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"\n' +
+      '  http {\n' +
+      '    client {\n' +
+      '      idle-timeout = 120 s\n' +
+      '    }\n' +
+      '    host-connection-pool {\n' +
+      '      idle-timeout = 150 s\n' +
+      '    }\n' +
+      '  }\n' +
+      '}\n';
   }
 }

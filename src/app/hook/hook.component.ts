@@ -56,6 +56,7 @@ export class HookComponent {
         case 'basic':
           return {
             enabled: true,
+            baseUrl: this.baseUrl,
             enabledHooks,
             type: this.authType,
             data: this.basicData
@@ -63,6 +64,7 @@ export class HookComponent {
         case 'escher':
           return {
             enabled: true,
+            baseUrl: this.baseUrl,
             enabledHooks,
             type: this.authType,
             data: this.escherData
@@ -70,6 +72,7 @@ export class HookComponent {
         case 'jwt':
           return {
             enabled: true,
+            baseUrl: this.baseUrl,
             enabledHooks,
             type: this.authType
           };

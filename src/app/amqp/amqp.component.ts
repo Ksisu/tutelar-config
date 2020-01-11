@@ -14,7 +14,7 @@ export class AmqpComponent {
 
   @Output() changed = new EventEmitter<any>();
 
-  uri;
+  uri = {from: 'file', value: ''};
 
   constructor() {
   }
