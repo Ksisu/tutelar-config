@@ -7,15 +7,15 @@
 
   <mat-form-field class="full-width">
     <mat-label>Type</mat-label>
-    <mat-select [(ngModel)]="databaseType">
+    <mat-select [(ngModel)]="databaseType" (change)="this.changed.emit({})">>
       <mat-option [value]="'memory'">InMemory (only for testing)</mat-option>
       <mat-option [value]="'postgres'">PostgreSQL</mat-option>
       <mat-option [value]="'mongo'">MongoDB</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <app-database-postgres [(value)]="postgresValue" *ngIf="databaseType === 'postgres'"></app-database-postgres>
-  <app-database-mongodb [(value)]="mongoValue" *ngIf="databaseType === 'mongo'"></app-database-mongodb>
+  <app-database-postgres [(value)]="postgresValue" *ngIf="databaseType === 'postgres'" (valueChange)="this.changed.emit({})"></app-database-postgres>
+  <app-database-mongodb [(value)]="mongoValue" *ngIf="databaseType === 'mongo'" (valueChange)="this.changed.emit({})">></app-database-mongodb>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

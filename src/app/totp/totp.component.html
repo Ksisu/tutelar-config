@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       TOTP
@@ -7,20 +7,20 @@
 
   <mat-form-field class="full-width">
     <mat-label>Algorithm</mat-label>
-    <mat-select [(ngModel)]="algorithm">
+    <mat-select [(ngModel)]="algorithm" (change)="this.changed.emit({})">
       <mat-option *ngFor="let algo of algorithms" [value]="algo">{{algo}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Window" value="1">
+    <input matInput placeholder="Window" [(ngModel)]="window" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Period" value="30s">
+    <input matInput placeholder="Period" [(ngModel)]="period" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Digits" value="6">
+    <input matInput placeholder="Digits" [(ngModel)]="digits" (change)="this.changed.emit({})">
   </mat-form-field>
-  <mat-checkbox>Start from current time</mat-checkbox>
+  <mat-checkbox [(ngModel)]="startFromCurrentTime" (change)="this.changed.emit({})">Start from current time</mat-checkbox>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

@@ -9,11 +9,10 @@
   </mat-expansion-panel-header>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="Success"
-           value="https://lvh.me:9443/index.html?token=<<TOKEN>>&refresh_token=<<REFRESH_TOKEN>>">
+    <input matInput placeholder="Success" [(ngModel)]="success" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Failure" value="https://lvh.me:9443/index.html?error=<<ERROR>>">
+    <input matInput placeholder="Failure" [(ngModel)]="failure" (change)="this.changed.emit({})">
   </mat-form-field>
 
 

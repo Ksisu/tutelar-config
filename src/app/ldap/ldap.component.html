@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       LDAP / AD
@@ -6,25 +6,27 @@
   </mat-expansion-panel-header>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="URL" value="ldap://localhost:389">
+    <input matInput placeholder="URL" [(ngModel)]="url" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Readonly User" value="cn=readonly,dc=wanari,dc=com">
+    <input matInput placeholder="Readonly User" [(ngModel)]="user" (change)="this.changed.emit({})">
   </mat-form-field>
-  <app-secret [label]="'Readonly User password'"></app-secret>
+  <app-secret [label]="'Readonly User password'" [(value)]="password"
+              (valueChange)="this.changed.emit({})"></app-secret>
   <mat-form-field class="full-width">
-    <input matInput placeholder="User search base domain" value="ou=users,dc=wanari,dc=com">
-  </mat-form-field>
-  <mat-form-field class="full-width">
-    <input matInput placeholder="User search attribute:" value="cn">
+    <input matInput placeholder="User search base domain" [(ngModel)]="baseDomain" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="User return single type attributes:" value="cn,sn,givenName">
+    <input matInput placeholder="User search attribute" [(ngModel)]="searchAttribute" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="User return array type attributes:" value="memberof">
+    <input matInput placeholder="User return single type attributes" [(ngModel)]="singleReturnAttribute"
+           (change)="this.changed.emit({})">
   </mat-form-field>
-
+  <mat-form-field class="full-width">
+    <input matInput placeholder="User return array type attributes" [(ngModel)]="multipleReturnAttribute"
+           (change)="this.changed.emit({})">
+  </mat-form-field>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

@@ -1,33 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-export interface EmailValue {
-  serviceType: string;
-  amqpQueueName?: string;
-  amqpBufferSize?: string;
-}
-
 @Component({
   selector: 'app-email',
   templateUrl: './email.component.html',
   styleUrls: ['./email.component.css']
 })
-export class EmailComponent implements OnInit {
+export class EmailComponent {
 
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
-
-  @Input()
-  set selectedProviders(selectedProviders: string[]) {
-    this._disabled = selectedProviders.indexOf('email') < 0;
-    this.disabled.emit(this._disabled);
-  }
-
-  @Output() value = new EventEmitter<EmailValue>();
+  @Output() changed = new EventEmitter<any>();
 
   serviceType = 'amqp';
   amqpQueueName = 'tutelar_email';
@@ -37,7 +22,7 @@ export class EmailComponent implements OnInit {
   port = 1025;
   ssl = false;
   username = '';
-  password = '';
+  password = {from: 'file', value: ''};
   senderAddress = 'no-reply@tutelar';
   registerTitle = '[Tutelar] Register';
   registerBody = 'Hello!\n<br/>\n<a href=\'https://lvh.me:9443/index.html?registerToken=<<TOKEN>>\'>Click here to register!</a>';
@@ -48,16 +33,31 @@ export class EmailComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
-    this.change();
+  getValue() {
+    switch (this.serviceType) {
+      case 'amqp':
+        return {
+          serviceType: this.serviceType,
+          amqpQueueName: this.amqpQueueName,
+          amqpBufferSize: this.amqpBufferSize,
+        };
+      case 'smtp':
+        return {
+          serviceType: this.serviceType,
+          host: this.host,
+          port: this.port,
+          ssl: this.ssl,
+          username: this.username,
+          password: this.password,
+          senderAddress: this.senderAddress,
+          registerTitle: this.registerTitle,
+          registerBody: this.registerBody,
+          resetPasswordTitle: this.resetPasswordTitle,
+          resetPasswordBody: this.resetPasswordBody,
+        };
+      default:
+        return {};
+    }
   }
 
-  change() {
-    const result = {
-      serviceType: this.serviceType,
-      amqpQueueName: this.amqpQueueName,
-      amqpBufferSize: this.amqpBufferSize
-    };
-    this.value.emit(result);
-  }
 }

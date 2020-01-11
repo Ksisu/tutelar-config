@@ -24,7 +24,6 @@ import {HookBasicComponent} from './hook-basic/hook-basic.component';
 import {EscherComponent} from './escher/escher.component';
 import {HealthcheckComponent} from './healthcheck/healthcheck.component';
 import {JwtComponent} from './jwt/jwt.component';
-import {JwtForProviderComponent} from './jwt-for-provider/jwt-for-provider.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +46,7 @@ import {JwtForProviderComponent} from './jwt-for-provider/jwt-for-provider.compo
     HookBasicComponent,
     EscherComponent,
     HealthcheckComponent,
-    JwtComponent,
-    JwtForProviderComponent
+    JwtComponent
   ],
   imports: [
     BrowserModule,

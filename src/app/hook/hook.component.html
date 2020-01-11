@@ -5,10 +5,10 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <mat-checkbox [(ngModel)]="enabled" (change)="change()">Enabled</mat-checkbox>
+  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
 
   <mat-checkbox [disabled]="!enabled" *ngFor="let h of hooks" [value]="h.id" [(ngModel)]="h.selected"
-                (change)="change()">{{h.label}}</mat-checkbox>
+                (change)="this.changed.emit({})">{{h.label}}</mat-checkbox>
 
   <mat-form-field class="full-width">
     <input [disabled]="!enabled" matInput placeholder="Base url" [(ngModel)]="baseUrl">
@@ -16,16 +16,16 @@
 
   <mat-form-field class="full-width">
     <mat-label>Authentication</mat-label>
-    <mat-select [(ngModel)]="authType" [disabled]="!enabled" (selectionChange)="change()">
+    <mat-select [(ngModel)]="authType" [disabled]="!enabled" (selectionChange)="this.changed.emit({})">
       <mat-option [value]="'basic'">Basic (User-Pass)</mat-option>
       <mat-option [value]="'escher'">Escher</mat-option>
       <mat-option [value]="'jwt'">JWT</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <app-hook-basic [(value)]="basicData" *ngIf="authType === 'basic'" (valueChange)="change()"
+  <app-hook-basic [(value)]="basicData" *ngIf="authType === 'basic'" (valueChange)="this.changed.emit({})"
                   [disabled]="!enabled"></app-hook-basic>
-  <app-hook-escher [(value)]="escherData" *ngIf="authType === 'escher'" (valueChange)="change()"
+  <app-hook-escher [(value)]="escherData" *ngIf="authType === 'escher'" (valueChange)="this.changed.emit({})"
                    [disabled]="!enabled"></app-hook-escher>
 
   <mat-action-row>

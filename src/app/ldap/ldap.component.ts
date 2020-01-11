@@ -5,25 +5,35 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   templateUrl: './ldap.component.html',
   styleUrls: ['./ldap.component.css']
 })
-export class LdapComponent implements OnInit {
+export class LdapComponent {
+
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
+  @Output() changed = new EventEmitter<any>();
 
-  @Input()
-  set selectedProviders(selectedProviders: string[]) {
-    this._disabled = selectedProviders.indexOf('ldap') < 0;
-    this.disabled.emit(this._disabled);
-  }
+  url = 'ldap://localhost:389';
+  user = 'cn=readonly,dc=wanari,dc=com';
+  password = {from: 'file', value: ''};
+  baseDomain = 'ou=users,dc=wanari,dc=com';
+  searchAttribute = 'cn';
+  singleReturnAttribute = 'cn,sn,givenName';
+  multipleReturnAttribute = 'memberof';
 
   constructor() {
   }
 
-  ngOnInit() {
+  getValue() {
+    return {
+      url: this.url,
+      user: this.user,
+      password: this.password,
+      baseDomain: this.baseDomain,
+      searchAttribute: this.searchAttribute,
+      singleReturnAttribute: this.singleReturnAttribute,
+      multipleReturnAttribute: this.multipleReturnAttribute,
+    };
   }
-
 }

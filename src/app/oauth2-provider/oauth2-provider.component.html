@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       {{name}}
@@ -6,11 +6,11 @@
   </mat-expansion-panel-header>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="Client ID" value="">
+    <input matInput placeholder="Client ID" [(ngModel)]="clientId" (change)="this.changed.emit({})">
   </mat-form-field>
-  <app-secret [label]="'Client secret'"></app-secret>
+  <app-secret [label]="'Client secret'" [(value)]="clientSecret" (change)="this.changed.emit({})"></app-secret>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Scope" [value]="defaultScopes">
+    <input matInput placeholder="Scope" [(ngModel)]="scopes" (change)="this.changed.emit({})">
   </mat-form-field>
 
   <mat-action-row>

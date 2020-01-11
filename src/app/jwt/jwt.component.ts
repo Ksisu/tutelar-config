@@ -16,6 +16,11 @@ export interface JwtData {
 })
 export class JwtComponent implements OnInit {
 
+  static symmetricAlgos = ['HMD5', 'HS224', 'HS256', 'HS384', 'HS512'];
+  static asymmetricAlgos = ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512'];
+  symmetricAlgos = JwtComponent.symmetricAlgos;
+  asymmetricAlgos = JwtComponent.asymmetricAlgos;
+
   @Input() name = '';
   @Input() desc = '';
   @Input() disabled = false;
@@ -45,9 +50,6 @@ export class JwtComponent implements OnInit {
 
   @Output() valueChange = new EventEmitter<JwtData>();
 
-  symmetricAlgos = ['HMD5', 'HS224', 'HS256', 'HS384', 'HS512'];
-  asymmetricAlgos = ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512'];
-
   algorithm = 'RS512';
   isSymmetric = false;
 
@@ -56,6 +58,10 @@ export class JwtComponent implements OnInit {
   publicKey = {from: 'file', value: ''};
 
   expirationTime = '1h';
+
+  static isSymmetric(name: string) {
+    return JwtComponent.symmetricAlgos.indexOf(name) >= 0;
+  }
 
   constructor() {
   }
@@ -79,6 +85,6 @@ export class JwtComponent implements OnInit {
   }
 
   private refreshIsSymmetric() {
-    this.isSymmetric = this.symmetricAlgos.indexOf(this.algorithm) >= 0;
+    this.isSymmetric = JwtComponent.isSymmetric(this.algorithm);
   }
 }

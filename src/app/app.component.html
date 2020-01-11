@@ -1,155 +1,172 @@
 <div class="container">
   <mat-accordion>
     <app-providers
+      #providers
       [expanded]="step === 0"
       (nextStep)="nextStep()"
       (opened)="setStep(0)"
-      (selectedProviders)="selectedProviders = $event"></app-providers>
+      (changed)="refresh()"></app-providers>
     <app-password-difficulty-checker
+      #passwordDifficultyChecker
       [expanded]="step === 1"
       (nextStep)="nextStep()"
       (opened)="setStep(1)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[1] = $event"
+      [disabled]="modulesDisabledState[1]"
+      (changed)="refresh()"
     ></app-password-difficulty-checker>
     <app-email
+      #email
       [expanded]="step === 2"
       (nextStep)="nextStep()"
       (opened)="setStep(2)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[2] = $event"
-      (value)="emailServiceValue = $event"
+      [disabled]="modulesDisabledState[2]"
+      (changed)="refresh()"
     ></app-email>
     <app-amqp
+      #amqp
       [expanded]="step === 3"
       (nextStep)="nextStep()"
       (opened)="setStep(3)"
-      [selectedProviders]="selectedProviders"
-      [emailServiceValue]="emailServiceValue"
-      (disabled)="modulesDisabledState[3] = $event"
+      [disabled]="modulesDisabledState[3]"
+      (changed)="refresh()"
     ></app-amqp>
     <app-ldap
+      #ldap
       [expanded]="step === 4"
       (nextStep)="nextStep()"
       (opened)="setStep(4)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[4] = $event"
+      [disabled]="modulesDisabledState[4]"
+      (changed)="refresh()"
     ></app-ldap>
     <app-oauth2
+      #oauth2
       [expanded]="step === 5"
       (nextStep)="nextStep()"
       (opened)="setStep(5)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[5] = $event"
+      [disabled]="modulesDisabledState[5]"
+      (changed)="refresh()"
     ></app-oauth2>
     <app-oauth2-provider
+      #oauth2github
       [name]="'GitHub'"
       [defaultScopes]="'read:user,gist'"
       [expanded]="step === 6"
       (nextStep)="nextStep()"
       (opened)="setStep(6)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[6] = $event"
+      [disabled]="modulesDisabledState[6]"
+      (changed)="refresh()"
     ></app-oauth2-provider>
     <app-oauth2-provider
+      #oauth2facebook
       [name]="'Facebook'"
       [defaultScopes]="'public_profile'"
       [expanded]="step === 7"
       (nextStep)="nextStep()"
       (opened)="setStep(7)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[7] = $event"
+      [disabled]="modulesDisabledState[7]"
+      (changed)="refresh()"
     ></app-oauth2-provider>
     <app-oauth2-provider
+      #oauth2google
       [name]="'Google'"
       [defaultScopes]="'openid,email,profile'"
       [expanded]="step === 8"
       (nextStep)="nextStep()"
       (opened)="setStep(8)"
-      [selectedProviders]="selectedProviders"
-      (disabled)="modulesDisabledState[8] = $event"
+      [disabled]="modulesDisabledState[8]"
+      (changed)="refresh()"
     ></app-oauth2-provider>
+    <app-totp
+      #totp
+      [expanded]="step === 9"
+      (nextStep)="nextStep()"
+      (opened)="setStep(9)"
+      [disabled]="modulesDisabledState[9]"
+      (changed)="refresh()"
+    ></app-totp>
+    <app-database
+      #database
+      [expanded]="step === 10"
+      (nextStep)="nextStep()"
+      (opened)="setStep(10)"
+      (changed)="refresh()"
+    ></app-database>
+    <app-callback
+      #callback
+      [expanded]="step === 11"
+      (nextStep)="nextStep()"
+      (opened)="setStep(11)"
+      (changed)="refresh()"
+    ></app-callback>
+    <app-hook
+      #hook
+      [expanded]="step === 12"
+      (nextStep)="nextStep()"
+      (opened)="setStep(12)"
+      (changed)="refresh()"
+    ></app-hook>
+    <app-jwt
+      name="HOOK"
+      desc="(hook service auth)"
+      [expanded]="step === 13"
+      (nextStep)="nextStep()"
+      (opened)="setStep(13)"
+      [disabled]="modulesDisabledState[13]"
+      [(value)]="model.jwt.hook"
+      (valueChange)="refresh()"
+    ></app-jwt>
+    <app-escher
+      #escher
+      [expanded]="step === 14"
+      (nextStep)="nextStep()"
+      (opened)="setStep(14)"
+      [disabled]="modulesDisabledState[14]"
+      (changed)="refresh()"
+    ></app-escher>
+    <app-healthcheck
+      #healthcheck
+      [expanded]="step === 15"
+      (nextStep)="nextStep()"
+      (opened)="setStep(15)"
+      (changed)="refresh()"
+    ></app-healthcheck>
+    <app-jwt
+      name="ShortTerm"
+      desc="(auth token)"
+      [(value)]="model.jwt.shortTerm"
+      [expanded]="step === 16"
+      (nextStep)="nextStep()"
+      (opened)="setStep(16)"
+      (valueChange)="refresh()"
+    ></app-jwt>
+    <app-jwt
+      name="LongTerm"
+      desc="(refresh token)"
+      [(value)]="model.jwt.longTerm"
+      [expanded]="step === 17"
+      (nextStep)="nextStep()"
+      (opened)="setStep(17)"
+      (valueChange)="refresh()"
+    ></app-jwt>
+    <app-jwt
+      name="Email Provider"
+      desc="(for Email-Pass)"
+      [(value)]="model.jwt.email"
+      [expanded]="step === 18"
+      (nextStep)="nextStep()"
+      (opened)="setStep(18)"
+      [disabled]="modulesDisabledState[18]"
+      (valueChange)="refresh()"
+    ></app-jwt>
+    <app-jwt
+      name="TOTP Provider"
+      desc="(for TOTP)"
+      [(value)]="model.jwt.totp"
+      [expanded]="step === 19"
+      (nextStep)="nextStep()"
+      (opened)="setStep(19)"
+      [disabled]="modulesDisabledState[19]"
+      (valueChange)="refresh()"
+    ></app-jwt>
   </mat-accordion>
-  <app-totp
-    [expanded]="step === 9"
-    (nextStep)="nextStep()"
-    (opened)="setStep(9)"
-    [selectedProviders]="selectedProviders"
-    (disabled)="modulesDisabledState[9] = $event"
-  ></app-totp>
-  <app-database
-    [expanded]="step === 10"
-    (nextStep)="nextStep()"
-    (opened)="setStep(10)"
-  ></app-database>
-  <app-callback
-    [expanded]="step === 11"
-    (nextStep)="nextStep()"
-    (opened)="setStep(11)"
-  ></app-callback>
-  <app-hook
-    [expanded]="step === 12"
-    (nextStep)="nextStep()"
-    (opened)="setStep(12)"
-    [(value)]="hookServiceValue"
-  ></app-hook>
-  <app-escher
-    [expanded]="step === 13"
-    (nextStep)="nextStep()"
-    (opened)="setStep(13)"
-    [hookData]="hookServiceValue"
-    (disabled)="modulesDisabledState[13] = $event"
-  ></app-escher>
-  <app-healthcheck
-    [expanded]="step === 14"
-    (nextStep)="nextStep()"
-    (opened)="setStep(14)"
-  ></app-healthcheck>
-  <app-jwt
-    name="ShortTerm"
-    desc="(auth token)"
-    [(value)]="shortTermJwt"
-    [expanded]="step === 15"
-    (nextStep)="nextStep()"
-    (opened)="setStep(15)"
-  ></app-jwt>
-  <app-jwt
-    name="LongTerm"
-    desc="(refresh token)"
-    [(value)]="longTermJwt"
-    [expanded]="step === 16"
-    (nextStep)="nextStep()"
-    (opened)="setStep(16)"
-  ></app-jwt>
-  <app-jwt-for-provider
-    provider="email"
-    name="Email Provider"
-    desc="(for Email-Pass)"
-    [(value)]="emailJwt"
-    [expanded]="step === 17"
-    (nextStep)="nextStep()"
-    (opened)="setStep(17)"
-    (disabled)="modulesDisabledState[17] = $event"
-    [selectedProviders]="selectedProviders"
-  ></app-jwt-for-provider>
-  <app-jwt-for-provider
-    provider="totp"
-    name="TOTP Provider"
-    desc="(for TOTP)"
-    [(value)]="totpJwt"
-    [expanded]="step === 18"
-    (nextStep)="nextStep()"
-    (opened)="setStep(18)"
-    (disabled)="modulesDisabledState[18] = $event"
-    [selectedProviders]="selectedProviders"
-  ></app-jwt-for-provider>
-  <app-jwt
-    name="HOOK"
-    desc="(hook service auth)"
-    [expanded]="step === 19"
-    (nextStep)="nextStep()"
-    (opened)="setStep(19)"
-    [disabled]="modulesDisabledState[19]"
-    [(value)]="hookJwt"
-  ></app-jwt>
 </div>

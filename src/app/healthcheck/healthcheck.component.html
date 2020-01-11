@@ -1,11 +1,11 @@
 <mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      HealthCheck
+      HealthCheck&nbsp;<i *ngIf="!enabled">(disabled)</i>
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <mat-checkbox>Enabled</mat-checkbox>
+  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

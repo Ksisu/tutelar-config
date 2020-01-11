@@ -13,32 +13,12 @@ export interface HookData {
   templateUrl: './hook.component.html',
   styleUrls: ['./hook.component.css']
 })
-export class HookComponent implements OnInit {
+export class HookComponent {
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
 
-  @Input()
-  set value(value: HookData) {
-    if (!!value) {
-      this.enabled = value.enabled;
-      if (this.enabled) {
-        switch (value.type) {
-          case 'basic':
-            // @ts-ignore
-            this.basicData = value.data;
-            break;
-          case 'escher':
-            // @ts-ignore
-            this.escherData = value.data;
-            break;
-          default:
-        }
-      }
-    }
-  }
-
-  @Output() valueChange = new EventEmitter<HookData>();
+  @Output() changed = new EventEmitter<any>();
 
   enabled = false;
   hooks = [
@@ -67,22 +47,34 @@ export class HookComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
-  change() {
+  getValue() {
     if (!this.enabled) {
-      this.valueChange.emit({enabled: false});
+      return {enabled: false};
     } else {
+      const enabledHooks = this.hooks.filter(h => h.selected).map(h => h.id);
       switch (this.authType) {
         case 'basic':
-          this.valueChange.emit({enabled: true, type: this.authType, data: this.basicData});
-          break;
+          return {
+            enabled: true,
+            enabledHooks,
+            type: this.authType,
+            data: this.basicData
+          };
         case 'escher':
-          this.valueChange.emit({enabled: true, type: this.authType, data: this.escherData});
-          break;
+          return {
+            enabled: true,
+            enabledHooks,
+            type: this.authType,
+            data: this.escherData
+          };
+        case 'jwt':
+          return {
+            enabled: true,
+            enabledHooks,
+            type: this.authType
+          };
         default:
-          this.valueChange.emit({enabled: false});
+          return {enabled: false};
       }
     }
   }

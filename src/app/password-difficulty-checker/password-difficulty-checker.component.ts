@@ -10,16 +10,11 @@ export class PasswordDifficultyCheckerComponent implements OnInit {
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
+  @Output() changed = new EventEmitter<any>();
 
-  @Input()
-  set selectedProviders(selectedProviders: string[]) {
-    this._disabled = selectedProviders.indexOf('basic') < 0 && selectedProviders.indexOf('email') < 0;
-    this.disabled.emit(this._disabled);
-  }
+  regexPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$';
 
   constructor() {
   }

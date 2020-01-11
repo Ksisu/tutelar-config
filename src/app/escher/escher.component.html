@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       Escher
@@ -6,25 +6,25 @@
   </mat-expansion-panel-header>
 
   <mat-form-field class="full-width">
-    <input matInput placeholder="Credential scope" value="eu/tutelar/request">
+    <input matInput placeholder="Credential scope" [(ngModel)]="credentialScope" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Auth header name" value="X-Escher-Auth">
+    <input matInput placeholder="Auth header name" [(ngModel)]="authHeaderName" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Date header name" value="X-Escher-Date">
+    <input matInput placeholder="Date header name" [(ngModel)]="dateHeaderName" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Algo prefix" value="ESR">
+    <input matInput placeholder="Algo prefix" value="ESR" [(ngModel)]="algoPrefix" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Vendor key" value="Escher">
+    <input matInput placeholder="Vendor key" value="Escher" [(ngModel)]="vendorKey" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Hostname" value="">
+    <input matInput placeholder="Hostname" value="" [(ngModel)]="hostname" (change)="this.changed.emit({})">
   </mat-form-field>
   <mat-form-field class="full-width">
-    <input matInput placeholder="Port" value="">
+    <input matInput placeholder="Port" value="" [(ngModel)]="port" (change)="this.changed.emit({})">
   </mat-form-field>
 
   <mat-action-row>

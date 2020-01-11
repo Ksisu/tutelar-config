@@ -16,6 +16,9 @@ export class SecretComponent implements OnInit {
 
   @Input()
   set value(value: SecretValue) {
+    if (!value) {
+      value = {from: 'file', value: ''};
+    }
     this.secretFrom = value.from;
     switch (this.secretFrom) {
       case 'file':

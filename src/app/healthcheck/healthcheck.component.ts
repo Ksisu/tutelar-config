@@ -5,15 +5,19 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   templateUrl: './healthcheck.component.html',
   styleUrls: ['./healthcheck.component.css']
 })
-export class HealthcheckComponent implements OnInit {
+export class HealthcheckComponent {
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
 
+  @Output() changed = new EventEmitter<any>();
+
+  enabled = false;
+
   constructor() {
   }
 
-  ngOnInit() {
+  getValue() {
+    return this.enabled;
   }
-
 }

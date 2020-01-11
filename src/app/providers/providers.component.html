@@ -6,7 +6,7 @@
   </mat-expansion-panel-header>
 
   <mat-checkbox *ngFor="let p of providers" [value]="p.id" [(ngModel)]="p.selected"
-                (change)="onChange()">{{p.label}}</mat-checkbox>
+                (change)="changed.emit({})">{{p.label}}</mat-checkbox>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

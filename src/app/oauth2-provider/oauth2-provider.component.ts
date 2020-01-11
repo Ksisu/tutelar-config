@@ -12,21 +12,26 @@ export class Oauth2ProviderComponent implements OnInit {
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
+  @Output() changed = new EventEmitter<any>();
 
-  @Input()
-  set selectedProviders(selectedProviders: string[]) {
-    this._disabled = !this.name || selectedProviders.indexOf(this.name.toLowerCase()) < 0;
-    this.disabled.emit(this._disabled);
-  }
+  clientId = '';
+  clientSecret = {from: 'file', value: ''};
+  scopes = '';
 
   constructor() {
   }
 
   ngOnInit() {
+    this.scopes = this.defaultScopes;
   }
 
+  getValue() {
+    return {
+      clientId: this.clientId,
+      clientSecret: this.clientSecret,
+      scopes: this.scopes,
+    };
+  }
 }

@@ -1,12 +1,11 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="_disabled">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       AMQP
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <app-secret [label]="'URI'" (value)="value = $event"></app-secret>
-
+  <app-secret [label]="'URI'" (value)="uri = $event"></app-secret>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

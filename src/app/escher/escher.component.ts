@@ -6,25 +6,35 @@ import {HookData} from '../hook/hook.component';
   templateUrl: './escher.component.html',
   styleUrls: ['./escher.component.css']
 })
-export class EscherComponent implements OnInit {
+export class EscherComponent {
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
+  @Output() changed = new EventEmitter<any>();
 
-  @Input()
-  set hookData(hookData: HookData) {
-    this._disabled = !hookData || !hookData.enabled || hookData.type !== 'escher';
-    this.disabled.emit(this._disabled);
-  }
+  credentialScope = 'eu/tutelar/request';
+  authHeaderName = 'X-Escher-Auth';
+  dateHeaderName = 'X-Escher-Date';
+  algoPrefix = 'ESR';
+  vendorKey = 'Escher';
+  hostname = '';
+  port = '';
 
   constructor() {
   }
 
-  ngOnInit() {
+  getValue() {
+    return {
+      credentialScope: this.credentialScope,
+      authHeaderName: this.authHeaderName,
+      dateHeaderName: this.dateHeaderName,
+      algoPrefix: this.algoPrefix,
+      vendorKey: this.vendorKey,
+      hostname: this.hostname,
+      port: this.port,
+    };
   }
 
 }

@@ -5,14 +5,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   templateUrl: './totp.component.html',
   styleUrls: ['./totp.component.css']
 })
-export class TotpComponent implements OnInit {
+export class TotpComponent {
+
   @Input() expanded: boolean;
   @Output() nextStep = new EventEmitter<any>();
   @Output() opened = new EventEmitter<any>();
-  @Output() disabled = new EventEmitter<boolean>();
+  @Input() disabled = true;
 
-  // tslint:disable-next-line:variable-name
-  _disabled = true;
+  @Output() changed = new EventEmitter<any>();
 
   algorithms = [
     'MD5',
@@ -21,17 +21,21 @@ export class TotpComponent implements OnInit {
     'SHA512',
   ];
   algorithm = 'SHA1';
-
-  @Input()
-  set selectedProviders(selectedProviders: string[]) {
-    this._disabled = selectedProviders.indexOf('totp') < 0;
-    this.disabled.emit(this._disabled);
-  }
+  window = '1';
+  period = '30s';
+  digits = '6';
+  startFromCurrentTime = false;
 
   constructor() {
   }
 
-  ngOnInit() {
+  getValue() {
+    return {
+      algorithm: this.algorithm,
+      window: this.window,
+      period: this.period,
+      digits: this.digits,
+      startFromCurrentTime: this.startFromCurrentTime,
+    };
   }
-
 }
