@@ -2,170 +2,162 @@
   <mat-accordion>
     <app-providers
       #providers
-      [expanded]="step === 0"
+      [expanded]="step === providers"
       (nextStep)="nextStep()"
-      (opened)="setStep(0)"
+      (opened)="setStep(providers)"
       (changed)="refresh()"></app-providers>
     <app-password-difficulty-checker
       #passwordDifficultyChecker
-      [expanded]="step === 1"
+      [expanded]="step === passwordDifficultyChecker"
       (nextStep)="nextStep()"
-      (opened)="setStep(1)"
-      [disabled]="modulesDisabledState[1]"
+      (opened)="setStep(passwordDifficultyChecker)"
       (changed)="refresh()"
     ></app-password-difficulty-checker>
     <app-email
       #email
-      [expanded]="step === 2"
+      [expanded]="step === email"
       (nextStep)="nextStep()"
-      (opened)="setStep(2)"
-      [disabled]="modulesDisabledState[2]"
+      (opened)="setStep(email)"
       (changed)="refresh()"
     ></app-email>
     <app-amqp
       #amqp
-      [expanded]="step === 3"
+      [expanded]="step === amqp"
       (nextStep)="nextStep()"
-      (opened)="setStep(3)"
-      [disabled]="modulesDisabledState[3]"
+      (opened)="setStep(amqp)"
       (changed)="refresh()"
     ></app-amqp>
     <app-ldap
       #ldap
-      [expanded]="step === 4"
+      [expanded]="step === ldap"
       (nextStep)="nextStep()"
-      (opened)="setStep(4)"
-      [disabled]="modulesDisabledState[4]"
+      (opened)="setStep(ldap)"
       (changed)="refresh()"
     ></app-ldap>
     <app-oauth2
       #oauth2
-      [expanded]="step === 5"
+      [expanded]="step === oauth2"
       (nextStep)="nextStep()"
-      (opened)="setStep(5)"
-      [disabled]="modulesDisabledState[5]"
+      (opened)="setStep(oauth2)"
       (changed)="refresh()"
     ></app-oauth2>
     <app-oauth2-provider
       #oauth2github
       [name]="'GitHub'"
       [defaultScopes]="'read:user,gist'"
-      [expanded]="step === 6"
+      [expanded]="step === oauth2github"
       (nextStep)="nextStep()"
-      (opened)="setStep(6)"
-      [disabled]="modulesDisabledState[6]"
+      (opened)="setStep(oauth2github)"
       (changed)="refresh()"
     ></app-oauth2-provider>
     <app-oauth2-provider
       #oauth2facebook
       [name]="'Facebook'"
       [defaultScopes]="'public_profile'"
-      [expanded]="step === 7"
+      [expanded]="step === oauth2facebook"
       (nextStep)="nextStep()"
-      (opened)="setStep(7)"
-      [disabled]="modulesDisabledState[7]"
+      (opened)="setStep(oauth2facebook)"
       (changed)="refresh()"
     ></app-oauth2-provider>
     <app-oauth2-provider
       #oauth2google
       [name]="'Google'"
       [defaultScopes]="'openid,email,profile'"
-      [expanded]="step === 8"
+      [expanded]="step === oauth2google"
       (nextStep)="nextStep()"
-      (opened)="setStep(8)"
-      [disabled]="modulesDisabledState[8]"
+      (opened)="setStep(oauth2google)"
       (changed)="refresh()"
     ></app-oauth2-provider>
     <app-totp
       #totp
-      [expanded]="step === 9"
+      [expanded]="step === totp"
       (nextStep)="nextStep()"
-      (opened)="setStep(9)"
-      [disabled]="modulesDisabledState[9]"
+      (opened)="setStep(totp)"
       (changed)="refresh()"
     ></app-totp>
     <app-database
       #database
-      [expanded]="step === 10"
+      [expanded]="step === database"
       (nextStep)="nextStep()"
-      (opened)="setStep(10)"
+      (opened)="setStep(database)"
       (changed)="refresh()"
     ></app-database>
     <app-callback
       #callback
-      [expanded]="step === 11"
+      [expanded]="step === callback"
       (nextStep)="nextStep()"
-      (opened)="setStep(11)"
+      (opened)="setStep(callback)"
       (changed)="refresh()"
     ></app-callback>
     <app-hook
       #hook
-      [expanded]="step === 12"
+      [expanded]="step === hook"
       (nextStep)="nextStep()"
-      (opened)="setStep(12)"
+      (opened)="setStep(hook)"
       (changed)="refresh()"
     ></app-hook>
     <app-jwt
+      #hookJwt
       name="HOOK"
       desc="(hook service auth)"
-      [expanded]="step === 13"
+      [expanded]="step === hookJwt"
       (nextStep)="nextStep()"
-      (opened)="setStep(13)"
-      [disabled]="modulesDisabledState[13]"
+      (opened)="setStep(hookJwt)"
       [(value)]="model.jwt.hook"
       (valueChange)="refresh()"
     ></app-jwt>
     <app-escher
       #escher
-      [expanded]="step === 14"
+      [expanded]="step === escher"
       (nextStep)="nextStep()"
-      (opened)="setStep(14)"
-      [disabled]="modulesDisabledState[14]"
+      (opened)="setStep(escher)"
       (changed)="refresh()"
     ></app-escher>
     <app-healthcheck
       #healthcheck
-      [expanded]="step === 15"
+      [expanded]="step === healthcheck"
       (nextStep)="nextStep()"
-      (opened)="setStep(15)"
+      (opened)="setStep(healthcheck)"
       (changed)="refresh()"
     ></app-healthcheck>
     <app-jwt
+      #shortTermJwt
       name="ShortTerm"
       desc="(auth token)"
       [(value)]="model.jwt.shortTerm"
-      [expanded]="step === 16"
+      [expanded]="step === shortTermJwt"
       (nextStep)="nextStep()"
-      (opened)="setStep(16)"
+      (opened)="setStep(shortTermJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
     <app-jwt
+      #longTermJwt
       name="LongTerm"
       desc="(refresh token)"
       [(value)]="model.jwt.longTerm"
-      [expanded]="step === 17"
+      [expanded]="step === longTermJwt"
       (nextStep)="nextStep()"
-      (opened)="setStep(17)"
+      (opened)="setStep(longTermJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
     <app-jwt
+      #emailProviderJwt
       name="Email Provider"
       desc="(for Email-Pass)"
       [(value)]="model.jwt.email"
-      [expanded]="step === 18"
+      [expanded]="step === emailProviderJwt"
       (nextStep)="nextStep()"
-      (opened)="setStep(18)"
-      [disabled]="modulesDisabledState[18]"
+      (opened)="setStep(emailProviderJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
     <app-jwt
+      #totpProviderJwt
       name="TOTP Provider"
       desc="(for TOTP)"
       [(value)]="model.jwt.totp"
-      [expanded]="step === 19"
+      [expanded]="step === totpProviderJwt"
       (nextStep)="nextStep()"
-      (opened)="setStep(19)"
-      [disabled]="modulesDisabledState[19]"
+      (opened)="setStep(totpProviderJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
   </mat-accordion>

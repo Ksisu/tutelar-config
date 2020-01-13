@@ -21,8 +21,6 @@ import {JwtComponent, JwtData} from './jwt/jwt.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  step = 0;
-
   model = {
     selectedProviders: [],
     passwordDifficultyCheckerRegexPattern: '',
@@ -63,25 +61,55 @@ export class AppComponent implements OnInit {
   @ViewChild('database', {static: true}) databaseComp: DatabaseComponent;
   @ViewChild('callback', {static: true}) callbackComp: CallbackComponent;
   @ViewChild('hook', {static: true}) hookComp: HookComponent;
+  @ViewChild('hookJwt', {static: true}) hookJwtComp: JwtComponent;
   @ViewChild('escher', {static: true}) escherComp: EscherComponent;
   @ViewChild('healthcheck', {static: true}) healthcheckComp: HealthcheckComponent;
+  @ViewChild('shortTermJwt', {static: true}) shortTermJwtComp: JwtComponent;
+  @ViewChild('longTermJwt', {static: true}) longTermJwtComp: JwtComponent;
+  @ViewChild('emailProviderJwt', {static: true}) emailProviderJwtComp: JwtComponent;
+  @ViewChild('totpProviderJwt', {static: true}) totpProviderJwtComp: JwtComponent;
 
-
-  modulesDisabledState = Array(20).fill(false);
+  step: any = null;
+  steps: any[] = [];
 
   ngOnInit(): void {
+    this.step = this.providersComp;
+    this.steps = [
+      this.providersComp,
+      this.passwordDifficultyCheckerComp,
+      this.emailComp,
+      this.amqpComp,
+      this.ldapComp,
+      this.oauth2Comp,
+      this.oauth2GithubComp,
+      this.oauth2FacebookComp,
+      this.oauth2GoogleComp,
+      this.totpComp,
+      this.databaseComp,
+      this.callbackComp,
+      this.hookComp,
+      this.hookJwtComp,
+      this.escherComp,
+      this.healthcheckComp,
+      this.shortTermJwtComp,
+      this.longTermJwtComp,
+      this.emailProviderJwtComp,
+      this.totpProviderJwtComp,
+    ];
     this.refresh();
   }
 
-  setStep(index: number) {
-    this.step = index;
+  setStep(element) {
+    this.step = element;
   }
 
   nextStep() {
-    let nextStep = this.step;
-    while (this.modulesDisabledState[++nextStep]) {
+    const stepsLength = this.steps.length;
+    let nextStepIdx = (this.steps.indexOf(this.step) + 1) % stepsLength;
+    while (this.steps[nextStepIdx].disabled === true) {
+      nextStepIdx = (nextStepIdx + 1) % stepsLength;
     }
-    this.step = nextStep;
+    this.step = this.steps[nextStepIdx];
   }
 
   refresh() {
@@ -104,62 +132,49 @@ export class AppComponent implements OnInit {
 
     // Refresh disable flags
 
-    // PasswordDifficultyChecker
-    this.modulesDisabledState[1] =
+    this.passwordDifficultyCheckerComp.disabled =
       this.model.selectedProviders.indexOf('basic') === -1 &&
       this.model.selectedProviders.indexOf('email') === -1;
 
-    // EmailService
-    this.modulesDisabledState[2] =
+    this.emailComp.disabled =
       this.model.selectedProviders.indexOf('email') === -1;
 
-    // AMQP
-    this.modulesDisabledState[3] =
+    this.amqpComp.disabled =
       this.model.selectedProviders.indexOf('email') === -1 ||
       this.model.emailService.serviceType !== 'amqp';
 
-    // LDAP
-    this.modulesDisabledState[4] =
+    this.ldapComp.disabled =
       this.model.selectedProviders.indexOf('ldap') === -1;
 
-    // OAuth2
-    this.modulesDisabledState[5] =
+    this.oauth2Comp.disabled =
       this.model.selectedProviders.indexOf('github') < 0 &&
       this.model.selectedProviders.indexOf('facebook') < 0 &&
       this.model.selectedProviders.indexOf('google') < 0;
 
-    // GitHub
-    this.modulesDisabledState[6] =
+    this.oauth2GithubComp.disabled =
       this.model.selectedProviders.indexOf('github') === -1;
 
-    // Facebook
-    this.modulesDisabledState[7] =
+    this.oauth2FacebookComp.disabled =
       this.model.selectedProviders.indexOf('facebook') === -1;
 
-    // Google
-    this.modulesDisabledState[8] =
+    this.oauth2GoogleComp.disabled =
       this.model.selectedProviders.indexOf('google') === -1;
 
-    // TOTP
-    this.modulesDisabledState[9] =
+    this.totpComp.disabled =
       this.model.selectedProviders.indexOf('totp') === -1;
 
-    // Hook JWT
-    this.modulesDisabledState[13] =
+    this.hookJwtComp.disabled =
       !this.model.hook.enabled ||
       this.model.hook.type !== 'jwt';
 
-    // Escher
-    this.modulesDisabledState[14] =
+    this.escherComp.disabled =
       !this.model.hook.enabled ||
       this.model.hook.type !== 'escher';
 
-    // Email JWT
-    this.modulesDisabledState[18] =
+    this.emailProviderJwtComp.disabled =
       this.model.selectedProviders.indexOf('email') === -1;
 
-    // TOTP JWT
-    this.modulesDisabledState[19] =
+    this.totpProviderJwtComp.disabled =
       this.model.selectedProviders.indexOf('totp') === -1;
   }
 
@@ -243,16 +258,13 @@ export class AppComponent implements OnInit {
     let result = 'jwt {\n';
     result += this.generateOneJwtConfig('shortTerm', this.model.jwt.shortTerm);
     result += this.generateOneJwtConfig('longTerm', this.model.jwt.longTerm);
-    // Email
-    if (!this.modulesDisabledState[18]) {
+    if (!this.emailProviderJwtComp.disabled) {
       result += this.generateOneJwtConfig('emailProvider', this.model.jwt.email);
     }
-    // TOTP
-    if (!this.modulesDisabledState[19]) {
+    if (!this.totpProviderJwtComp.disabled) {
       result += this.generateOneJwtConfig('totpProvider', this.model.jwt.totp);
     }
-    // Hook
-    if (!this.modulesDisabledState[13]) {
+    if (!this.hookJwtComp.disabled) {
       result += this.generateOneJwtConfig('hook', this.model.jwt.hook);
     }
     result += '}\n';
