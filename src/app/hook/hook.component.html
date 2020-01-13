@@ -5,10 +5,8 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
-
-  <mat-checkbox [disabled]="!enabled" *ngFor="let h of hooks" [value]="h.id" [(ngModel)]="h.selected"
-                (change)="this.changed.emit({})">{{h.label}}</mat-checkbox>
+  <mat-checkbox *ngFor="let h of hooks" [value]="h.id" [(ngModel)]="h.selected"
+                (change)="enabledHooksChanged()">{{h.label}}</mat-checkbox>
 
   <mat-form-field class="full-width">
     <input [disabled]="!enabled" matInput placeholder="Base url" [(ngModel)]="baseUrl">

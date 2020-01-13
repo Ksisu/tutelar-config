@@ -47,6 +47,11 @@ export class HookComponent {
   constructor() {
   }
 
+  enabledHooksChanged() {
+    this.enabled = this.hooks.filter(h => h.selected).length > 0;
+    this.changed.emit({});
+  }
+
   getValue() {
     if (!this.enabled) {
       return {enabled: false};
