@@ -1,0 +1,18 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Jaeger Tracer&nbsp;<i *ngIf="!enabled">(disabled)</i>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
+
+  <mat-form-field class="full-width">
+    <input [disabled]="!enabled" matInput placeholder="Service name" [(ngModel)]="serviceName">
+  </mat-form-field>
+
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

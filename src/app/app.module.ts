@@ -28,6 +28,7 @@ import {EscherServiceComponent} from './escher-service/escher-service.component'
 import {ConfigResultComponent} from './config-generator/config-result.component';
 import {HelloComponent} from './hello/hello.component';
 import {ProviderLoginExpirationComponent} from './provider-login-expiration/provider-login-expiration.component';
+import {TracerComponent} from './tracer/tracer.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {ProviderLoginExpirationComponent} from './provider-login-expiration/prov
     EscherServiceComponent,
     ConfigResultComponent,
     HelloComponent,
-    ProviderLoginExpirationComponent
+    ProviderLoginExpirationComponent,
+    TracerComponent
   ],
   imports: [
     BrowserModule,

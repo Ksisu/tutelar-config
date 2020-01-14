@@ -19,6 +19,7 @@ import {EscherServiceComponent} from './escher-service/escher-service.component'
 import {ConfigResultComponent} from './config-generator/config-result.component';
 import {HelloComponent} from './hello/hello.component';
 import {ProviderLoginExpirationComponent} from './provider-login-expiration/provider-login-expiration.component';
+import {TracerComponent} from './tracer/tracer.component';
 
 @Component({
   selector: 'app-root',
@@ -63,7 +64,8 @@ export class AppComponent implements OnInit {
       google: {} as any,
       facebook: {} as any,
       totp: {} as any,
-    }
+    },
+    tracer: {} as any,
   };
 
   @ViewChild('hello', {static: true}) helloComp: HelloComponent;
@@ -99,6 +101,7 @@ export class AppComponent implements OnInit {
   @ViewChild('googleExpiration', {static: true}) googleExpirationComp: ProviderLoginExpirationComponent;
   @ViewChild('facebookExpiration', {static: true}) facebookExpirationComp: ProviderLoginExpirationComponent;
   @ViewChild('totpExpiration', {static: true}) totpExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('tracer', {static: true}) tracerComp: TracerComponent;
 
   step: any = null;
   steps: any[] = [];
@@ -128,6 +131,7 @@ export class AppComponent implements OnInit {
       this.hookEscherComp,
       this.escherComp,
       this.healthcheckComp,
+      this.tracerComp,
       this.shortTermJwtComp,
       this.longTermJwtComp,
       this.basicExpirationComp,
@@ -183,6 +187,7 @@ export class AppComponent implements OnInit {
     this.model.expiration.google = this.googleExpirationComp.getValue();
     this.model.expiration.facebook = this.facebookExpirationComp.getValue();
     this.model.expiration.totp = this.totpExpirationComp.getValue();
+    this.model.tracer = this.tracerComp.getValue();
 
     // Refresh disable flags
     this.passwordDifficultyCheckerComp.disabled =
@@ -446,7 +451,23 @@ export class AppComponent implements OnInit {
   }
 
   generateTracerConfig() {
-    return 'tracer {\n  client = "off"\n}\n'; // TODO
+    let result = '';
+    result += 'tracer {\n';
+    if (!this.model.tracer.enabled) {
+      result += '  client = "off\n"';
+    } else {
+      result += '  client = "jeager"\n';
+      result += `  serviceName = "${this.model.tracer.serviceName}"\n`;
+      result += '  sampler {\n';
+      result += '    type = "const"\n';
+      result += '    param = 1\n';
+      result += '  }\n';
+      result += '  reporter {\n';
+      result += '    withLogSpans = true\n';
+      result += '  }\n';
+    }
+    result += '}\n';
+    return result;
   }
 
   generateOneOauth2Config(name: string, data) {

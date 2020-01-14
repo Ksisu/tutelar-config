@@ -181,6 +181,13 @@
       (opened)="setStep(healthcheck)"
       (changed)="refresh()"
     ></app-healthcheck>
+    <app-tracer
+      #tracer
+      [expanded]="step === tracer"
+      (nextStep)="nextStep()"
+      (opened)="setStep(tracer)"
+      (changed)="refresh()"
+    ></app-tracer>
     <app-jwt
       #shortTermJwt
       name="ShortTerm"
