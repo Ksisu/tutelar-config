@@ -27,6 +27,7 @@ import {LdapApiComponent} from './ldap-api/ldap-api.component';
 import {EscherServiceComponent} from './escher-service/escher-service.component';
 import {ConfigResultComponent} from './config-generator/config-result.component';
 import {HelloComponent} from './hello/hello.component';
+import {ProviderLoginExpirationComponent} from './provider-login-expiration/provider-login-expiration.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {HelloComponent} from './hello/hello.component';
     LdapApiComponent,
     EscherServiceComponent,
     ConfigResultComponent,
-    HelloComponent
+    HelloComponent,
+    ProviderLoginExpirationComponent
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,7 @@ import {LdapApiComponent} from './ldap-api/ldap-api.component';
 import {EscherServiceComponent} from './escher-service/escher-service.component';
 import {ConfigResultComponent} from './config-generator/config-result.component';
 import {HelloComponent} from './hello/hello.component';
+import {ProviderLoginExpirationComponent} from './provider-login-expiration/provider-login-expiration.component';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,15 @@ export class AppComponent implements OnInit {
       totp: {algorithm: 'HS256', expirationTime: '10m', secret: {from: 'file', value: ''}},
       hook: {algorithm: 'HS256', expirationTime: '5m', secret: {from: 'file', value: ''}},
       ldapApi: {algorithm: 'HS256', expirationTime: '5m', secret: {from: 'file', value: ''}},
+    },
+    expiration: {
+      basic: {} as any,
+      email: {} as any,
+      ldap: {} as any,
+      github: {} as any,
+      google: {} as any,
+      facebook: {} as any,
+      totp: {} as any,
     }
   };
 
@@ -82,6 +92,13 @@ export class AppComponent implements OnInit {
   @ViewChild('emailProviderJwt', {static: true}) emailProviderJwtComp: JwtComponent;
   @ViewChild('totpProviderJwt', {static: true}) totpProviderJwtComp: JwtComponent;
   @ViewChild('result', {static: true}) resultComp: ConfigResultComponent;
+  @ViewChild('basicExpiration', {static: true}) basicExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('emailExpiration', {static: true}) emailExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('ldapExpiration', {static: true}) ldapExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('githubExpiration', {static: true}) githubExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('googleExpiration', {static: true}) googleExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('facebookExpiration', {static: true}) facebookExpirationComp: ProviderLoginExpirationComponent;
+  @ViewChild('totpExpiration', {static: true}) totpExpirationComp: ProviderLoginExpirationComponent;
 
   step: any = null;
   steps: any[] = [];
@@ -113,6 +130,13 @@ export class AppComponent implements OnInit {
       this.healthcheckComp,
       this.shortTermJwtComp,
       this.longTermJwtComp,
+      this.basicExpirationComp,
+      this.emailExpirationComp,
+      this.ldapExpirationComp,
+      this.githubExpirationComp,
+      this.googleExpirationComp,
+      this.facebookExpirationComp,
+      this.totpExpirationComp,
       this.resultComp,
     ];
     this.step = this.steps[0];
@@ -152,6 +176,13 @@ export class AppComponent implements OnInit {
     this.model.hookEscher = this.hookEscherComp.value;
     this.model.escher = this.escherComp.getValue();
     this.model.healthCheckEnabled = this.healthcheckComp.getValue();
+    this.model.expiration.basic = this.basicExpirationComp.getValue();
+    this.model.expiration.email = this.emailExpirationComp.getValue();
+    this.model.expiration.ldap = this.ldapExpirationComp.getValue();
+    this.model.expiration.github = this.githubExpirationComp.getValue();
+    this.model.expiration.google = this.googleExpirationComp.getValue();
+    this.model.expiration.facebook = this.facebookExpirationComp.getValue();
+    this.model.expiration.totp = this.totpExpirationComp.getValue();
 
     // Refresh disable flags
     this.passwordDifficultyCheckerComp.disabled =
@@ -215,6 +246,27 @@ export class AppComponent implements OnInit {
     this.totpProviderJwtComp.disabled =
       this.model.selectedProviders.indexOf('totp') === -1;
 
+    this.basicExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('basic') === -1;
+
+    this.emailExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('email') === -1;
+
+    this.ldapExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('ldap') === -1;
+
+    this.githubExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('github') === -1;
+
+    this.googleExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('google') === -1;
+
+    this.facebookExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('facebook') === -1;
+
+    this.totpExpirationComp.disabled =
+      this.model.selectedProviders.indexOf('totp') === -1;
+
     // Generate config
     let result = '';
     result += this.generateModulesEnabledConfig();
@@ -228,6 +280,7 @@ export class AppComponent implements OnInit {
     result += this.generateLdapConfig();
     result += this.generateUserpassConfig();
     result += this.generateTotpConfig();
+    result += this.generateExpirationConfig();
     result += this.generateTracerConfig();
     result += this.generateAkkaConfig();
     this.resultComp.result = result;
@@ -525,6 +578,33 @@ export class AppComponent implements OnInit {
     result += `  period = "${this.model.totp.period}"\n`;
     result += `  digits = "${this.model.totp.digits}"\n`;
     result += `  startFromCurrentTime = ${this.model.totp.startFromCurrentTime.toString()}\n`;
+    result += '}\n';
+    return result;
+  }
+
+  generateOneExpirationConfig(name: string, data: any) {
+    let result = '';
+    result += `  ${name} {\n`;
+    if (!data.enabled) {
+      result += '   type = ""\n';
+    } else {
+      result += `   type = "${data.type}"\n`;
+      result += `   duration = "${data.duration}"\n`;
+    }
+    result += '  }\n';
+    return result;
+  }
+
+  generateExpirationConfig() {
+    let result = '';
+    result += 'providerLoginExpiration {\n';
+    result += this.generateOneExpirationConfig('basic', this.model.expiration.basic);
+    result += this.generateOneExpirationConfig('email', this.model.expiration.email);
+    result += this.generateOneExpirationConfig('ldap', this.model.expiration.ldap);
+    result += this.generateOneExpirationConfig('github', this.model.expiration.github);
+    result += this.generateOneExpirationConfig('google', this.model.expiration.google);
+    result += this.generateOneExpirationConfig('facebook', this.model.expiration.facebook);
+    result += this.generateOneExpirationConfig('totp', this.model.expiration.totp);
     result += '}\n';
     return result;
   }

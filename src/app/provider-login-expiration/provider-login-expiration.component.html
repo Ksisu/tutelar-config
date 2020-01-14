@@ -1,0 +1,29 @@
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Provider login expiration - {{name}} &nbsp;<i *ngIf="!enabled">(disabled)</i>
+    </mat-panel-title>
+    <mat-panel-description>
+      {{desc}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
+
+  <mat-form-field class="full-width">
+    <mat-label>Type</mat-label>
+    <mat-select [(ngModel)]="type" [disabled]="!enabled" (selectionChange)="this.changed.emit({})">
+      <mat-option [value]="'inactivity'">Inactivity</mat-option>
+      <mat-option [value]="'lifetime'">Lifetime</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Duration" [disabled]="!enabled" [(ngModel)]="duration" (change)="changed.emit({})">
+  </mat-form-field>
+
+
+  <mat-action-row>
+    <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>
+  </mat-action-row>
+</mat-expansion-panel>

@@ -201,6 +201,69 @@
       (opened)="setStep(longTermJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
+    <app-provider-login-expiration
+      #basicExpiration
+      name="Basic"
+      desc="(for Basic)"
+      [expanded]="step === basicExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(basicExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #emailExpiration
+      name="Email-Pass"
+      desc="(for Email-Pass)"
+      [expanded]="step === emailExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(emailExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #ldapExpiration
+      name="LDAP"
+      desc="(for LDAP)"
+      [expanded]="step === ldapExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(ldapExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #githubExpiration
+      name="GitHub"
+      desc="(for GitHub)"
+      [expanded]="step === githubExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(githubExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #googleExpiration
+      name="Google"
+      desc="(for Google)"
+      [expanded]="step === googleExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(googleExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #facebookExpiration
+      name="Facebook"
+      desc="(for Facebook)"
+      [expanded]="step === facebookExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(facebookExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
+    <app-provider-login-expiration
+      #totpExpiration
+      name="TOTP"
+      desc="(for TOTP)"
+      [expanded]="step === totpExpiration"
+      (nextStep)="nextStep()"
+      (opened)="setStep(totpExpiration)"
+      (changed)="refresh()"
+    ></app-provider-login-expiration>
     <app-config-result
       #result
       [expanded]="step === result"
