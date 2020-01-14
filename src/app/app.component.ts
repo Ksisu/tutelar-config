@@ -16,6 +16,7 @@ import {SecretValue} from './secret/secret.component';
 import {JwtComponent, JwtData} from './jwt/jwt.component';
 import {LdapApiComponent} from './ldap-api/ldap-api.component';
 import {EscherServiceComponent} from './escher-service/escher-service.component';
+import {ConfigResultComponent} from './config-generator/config-result.component';
 
 @Component({
   selector: 'app-root',
@@ -78,6 +79,7 @@ export class AppComponent implements OnInit {
   @ViewChild('longTermJwt', {static: true}) longTermJwtComp: JwtComponent;
   @ViewChild('emailProviderJwt', {static: true}) emailProviderJwtComp: JwtComponent;
   @ViewChild('totpProviderJwt', {static: true}) totpProviderJwtComp: JwtComponent;
+  @ViewChild('result', {static: true}) resultComp: ConfigResultComponent;
 
   step: any = null;
   steps: any[] = [];
@@ -109,6 +111,7 @@ export class AppComponent implements OnInit {
       this.healthcheckComp,
       this.shortTermJwtComp,
       this.longTermJwtComp,
+      this.resultComp,
     ];
     this.refresh();
   }
@@ -148,7 +151,6 @@ export class AppComponent implements OnInit {
     this.model.healthCheckEnabled = this.healthcheckComp.getValue();
 
     // Refresh disable flags
-
     this.passwordDifficultyCheckerComp.disabled =
       this.model.selectedProviders.indexOf('basic') === -1 &&
       this.model.selectedProviders.indexOf('email') === -1;
@@ -209,10 +211,8 @@ export class AppComponent implements OnInit {
 
     this.totpProviderJwtComp.disabled =
       this.model.selectedProviders.indexOf('totp') === -1;
-  }
 
-  generateConfig() {
-    this.refresh();
+    // Generate config
     let result = '';
     result += this.generateModulesEnabledConfig();
     result += this.generateDatabaseConfig();
@@ -227,7 +227,7 @@ export class AppComponent implements OnInit {
     result += this.generateTotpConfig();
     result += this.generateTracerConfig();
     result += this.generateAkkaConfig();
-    console.log(result);
+    this.resultComp.result = result;
   }
 
   generateModulesEnabledConfig() {

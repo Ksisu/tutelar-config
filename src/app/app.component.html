@@ -195,6 +195,10 @@
       (opened)="setStep(longTermJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
+    <app-config-result
+      #result
+      [expanded]="step === result"
+      (opened)="setStep(result)"
+    ></app-config-result>
   </mat-accordion>
 </div>
-<button (click)="generateConfig()">ASDASD</button>

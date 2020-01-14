@@ -23,8 +23,9 @@ import {HookBasicComponent} from './hook-basic/hook-basic.component';
 import {EscherComponent} from './escher/escher.component';
 import {HealthcheckComponent} from './healthcheck/healthcheck.component';
 import {JwtComponent} from './jwt/jwt.component';
-import { LdapApiComponent } from './ldap-api/ldap-api.component';
-import { EscherServiceComponent } from './escher-service/escher-service.component';
+import {LdapApiComponent} from './ldap-api/ldap-api.component';
+import {EscherServiceComponent} from './escher-service/escher-service.component';
+import {ConfigResultComponent} from './config-generator/config-result.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { EscherServiceComponent } from './escher-service/escher-service.componen
     HealthcheckComponent,
     JwtComponent,
     LdapApiComponent,
-    EscherServiceComponent
+    EscherServiceComponent,
+    ConfigResultComponent
   ],
   imports: [
     BrowserModule,
