@@ -14,6 +14,8 @@ import {EscherComponent} from './escher/escher.component';
 import {HealthcheckComponent} from './healthcheck/healthcheck.component';
 import {SecretValue} from './secret/secret.component';
 import {JwtComponent, JwtData} from './jwt/jwt.component';
+import {LdapApiComponent} from './ldap-api/ldap-api.component';
+import {EscherServiceComponent} from './escher-service/escher-service.component';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,8 @@ export class AppComponent implements OnInit {
     emailService: {} as any,
     amqpUri: {from: 'file', value: ''},
     ldap: {} as any,
+    ldapApi: {} as any,
+    ldapApiEscher: {} as any,
     oauth2RootUrl: '',
     oauth2: {
       github: {} as any,
@@ -37,6 +41,7 @@ export class AppComponent implements OnInit {
     database: {} as any,
     callback: {} as any,
     hook: {} as any,
+    hookEscher: {} as any,
     escher: {} as any,
     healthCheckEnabled: false,
     jwt: {
@@ -45,6 +50,7 @@ export class AppComponent implements OnInit {
       email: {algorithm: 'HS256', expirationTime: '30m', secret: {from: 'file', value: ''}},
       totp: {algorithm: 'HS256', expirationTime: '10m', secret: {from: 'file', value: ''}},
       hook: {algorithm: 'HS256', expirationTime: '5m', secret: {from: 'file', value: ''}},
+      ldapApi: {algorithm: 'HS256', expirationTime: '5m', secret: {from: 'file', value: ''}},
     }
   };
 
@@ -53,6 +59,9 @@ export class AppComponent implements OnInit {
   @ViewChild('email', {static: true}) emailComp: EmailComponent;
   @ViewChild('amqp', {static: true}) amqpComp: AmqpComponent;
   @ViewChild('ldap', {static: true}) ldapComp: LdapComponent;
+  @ViewChild('ldapApi', {static: true}) ldapApiComp: LdapApiComponent;
+  @ViewChild('ldapApiJwt', {static: true}) ldapApiJwtComp: JwtComponent;
+  @ViewChild('ldapApiEscher', {static: true}) ldapApiEscherComp: EscherServiceComponent;
   @ViewChild('oauth2', {static: true}) oauth2Comp: Oauth2Component;
   @ViewChild('oauth2github', {static: true}) oauth2GithubComp: Oauth2ProviderComponent;
   @ViewChild('oauth2facebook', {static: true}) oauth2FacebookComp: Oauth2ProviderComponent;
@@ -62,6 +71,7 @@ export class AppComponent implements OnInit {
   @ViewChild('callback', {static: true}) callbackComp: CallbackComponent;
   @ViewChild('hook', {static: true}) hookComp: HookComponent;
   @ViewChild('hookJwt', {static: true}) hookJwtComp: JwtComponent;
+  @ViewChild('hookEscher', {static: true}) hookEscherComp: EscherServiceComponent;
   @ViewChild('escher', {static: true}) escherComp: EscherComponent;
   @ViewChild('healthcheck', {static: true}) healthcheckComp: HealthcheckComponent;
   @ViewChild('shortTermJwt', {static: true}) shortTermJwtComp: JwtComponent;
@@ -78,23 +88,27 @@ export class AppComponent implements OnInit {
       this.providersComp,
       this.passwordDifficultyCheckerComp,
       this.emailComp,
+      this.emailProviderJwtComp,
       this.amqpComp,
       this.ldapComp,
+      this.ldapApiComp,
+      this.ldapApiJwtComp,
+      this.ldapApiEscherComp,
       this.oauth2Comp,
       this.oauth2GithubComp,
       this.oauth2FacebookComp,
       this.oauth2GoogleComp,
       this.totpComp,
+      this.totpProviderJwtComp,
       this.databaseComp,
       this.callbackComp,
       this.hookComp,
       this.hookJwtComp,
+      this.hookEscherComp,
       this.escherComp,
       this.healthcheckComp,
       this.shortTermJwtComp,
       this.longTermJwtComp,
-      this.emailProviderJwtComp,
-      this.totpProviderJwtComp,
     ];
     this.refresh();
   }
@@ -119,6 +133,8 @@ export class AppComponent implements OnInit {
     this.model.emailService = this.emailComp.getValue();
     this.model.amqpUri = this.amqpComp.uri;
     this.model.ldap = this.ldapComp.getValue();
+    this.model.ldapApi = this.ldapApiComp.getValue();
+    this.model.ldapApiEscher = this.ldapApiEscherComp.value;
     this.model.oauth2RootUrl = this.oauth2Comp.rootUrl;
     this.model.oauth2.github = this.oauth2GithubComp.getValue();
     this.model.oauth2.facebook = this.oauth2FacebookComp.getValue();
@@ -127,6 +143,7 @@ export class AppComponent implements OnInit {
     this.model.database = this.databaseComp.getValue();
     this.model.callback = this.callbackComp.getValue();
     this.model.hook = this.hookComp.getValue();
+    this.model.hookEscher = this.hookEscherComp.value;
     this.model.escher = this.escherComp.getValue();
     this.model.healthCheckEnabled = this.healthcheckComp.getValue();
 
@@ -145,6 +162,17 @@ export class AppComponent implements OnInit {
 
     this.ldapComp.disabled =
       this.model.selectedProviders.indexOf('ldap') === -1;
+
+    this.ldapApiComp.disabled =
+      this.model.selectedProviders.indexOf('ldap') === -1;
+
+    this.ldapApiJwtComp.disabled =
+      !this.model.ldapApi.enabled ||
+      this.model.ldapApi.authType !== 'jwt';
+
+    this.ldapApiEscherComp.disabled =
+      !this.model.ldapApi.enabled ||
+      this.model.ldapApi.authType !== 'escher';
 
     this.oauth2Comp.disabled =
       this.model.selectedProviders.indexOf('github') < 0 &&
@@ -167,12 +195,17 @@ export class AppComponent implements OnInit {
       !this.model.hook.enabled ||
       this.model.hook.type !== 'jwt';
 
-    this.escherComp.disabled =
+    this.hookEscherComp.disabled =
       !this.model.hook.enabled ||
       this.model.hook.type !== 'escher';
 
+    this.escherComp.disabled =
+      (!this.model.hook.enabled ||
+        this.model.hook.type !== 'escher') &&
+      this.ldapApiEscherComp.disabled;
+
     this.emailProviderJwtComp.disabled =
-      this.model.selectedProviders.indexOf('email') === -1;
+      this.emailComp.disabled;
 
     this.totpProviderJwtComp.disabled =
       this.model.selectedProviders.indexOf('totp') === -1;
@@ -267,6 +300,9 @@ export class AppComponent implements OnInit {
     if (!this.hookJwtComp.disabled) {
       result += this.generateOneJwtConfig('hook', this.model.jwt.hook);
     }
+    if (!this.ldapApiJwtComp.disabled) {
+      result += this.generateOneJwtConfig('ldapApi', this.model.jwt.ldapApi);
+    }
     result += '}\n';
     return result;
   }
@@ -281,8 +317,8 @@ export class AppComponent implements OnInit {
   }
 
   generateEscherConfig() {
-    const hookEscher = this.model.hook.enabled && this.model.hook.type === 'escher';
-    const ldapApiEscher = false; // TODO
+    const hookEscher = !this.hookEscherComp.disabled;
+    const ldapApiEscher = !this.ldapApiEscherComp.disabled;
 
     if (!hookEscher && !ldapApiEscher) {
       return '';
@@ -304,18 +340,18 @@ export class AppComponent implements OnInit {
     if (hookEscher) {
       result += '    {\n';
       result += `      name = "hook"\n`;
-      result += `      key = "${this.model.hook.data.key}"\n`;
-      result += '      ' + this.generateSecretConfig('secret', this.model.hook.data.secret) + '\n';
-      result += `      credential-scope = "${this.model.hook.data.scope}"\n`;
+      result += `      key = "${this.model.hookEscher.key}"\n`;
+      result += '      ' + this.generateSecretConfig('secret', this.model.hookEscher.secret) + '\n';
+      result += `      credential-scope = "${this.model.hookEscher.scope}"\n`;
       result += '    }';
     }
     result += (hookEscher && ldapApiEscher) ? ',\n' : '\n';
     if (ldapApiEscher) {
       result += '    {\n';
       result += `      name = "ldap-api"\n`;
-      result += `      key = "${this.model.hook.data.key}"\n`; // TODO
-      result += '      ' + this.generateSecretConfig('secret', this.model.hook.data.secret) + '\n'; // TODO
-      result += `      credential-scope = "${this.model.hook.data.scope}"\n`;  // TODO
+      result += `      key = "${this.model.ldapApiEscher.key}"\n`;
+      result += '      ' + this.generateSecretConfig('secret', this.model.ldapApiEscher.secret) + '\n';
+      result += `      credential-scope = "${this.model.ldapApiEscher.scope}"\n`;
       result += '    }';
     }
     result += '  ]\n';
@@ -396,7 +432,6 @@ export class AppComponent implements OnInit {
     if (this.ldapComp.disabled) {
       return '';
     }
-    const ldapApiEnabled = false; // TODO
 
     let result = '';
     result += 'ldap {\n';
@@ -407,27 +442,24 @@ export class AppComponent implements OnInit {
     result += `  userSearchAttribute = "${this.model.ldap.searchAttribute}"\n`;
     result += `  userSearchReturnAttributes = "${this.model.ldap.singleReturnAttribute}"\n`;
     result += `  userSearchReturnArrayAttributes = "${this.model.ldap.singleReturnAttribute}"\n`;
-    /*
-
-  ldapApi {
-    // basic, escher
-    auth = "escher"
-    auth = ${?LDAP_API_AUTH}
-    basic {
-      username = ""
-      username = ${?LDAP_API_BASIC_USERNAME}
-      password = ""
-      password = ${?LDAP_API_BASIC_PASSWORD}
-      passwordFile = ${?LDAP_API_BASIC_PASSWORD_FILE}
+    result += '  ldapApi {\n';
+    const type = this.model.ldapApi.enabled ? this.model.ldapApi.authType : 'blocked';
+    result += `    auth = "${type}"\n`;
+    if (type === 'basic') {
+      result += '    basic {\n';
+      result += `      username = "${this.model.ldapApi.basic.username}"\n`;
+      result += '      ' + this.generateSecretConfig('password', this.model.ldapApi.basic.password) + '\n';
+      result += '    }\n';
+    } else if (type === 'escher') {
+      result += '    escher {\n';
+      result += '      trustedServices = "ldap-api"\n';
+      result += '    }\n';
+    } else if (type === 'jwt') {
+      result += '    jwt {\n';
+      result += '      configName = "ldapApi"\n';
+      result += '    }\n';
     }
-    escher {
-      trustedServices = "ldap-api"
-      trustedServices = ${?LDAP_API_ESCHER_TRUSTED_SERVICES}
-    }
-  }
-}
-    */ // TODO
-
+    result += '  }\n';
     result += '}\n';
     return result;
   }

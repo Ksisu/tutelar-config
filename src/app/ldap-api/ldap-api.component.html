@@ -1,16 +1,11 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})">
+<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      Hook service &nbsp;<i *ngIf="!enabled">(disabled)</i>
+      LDAP Api&nbsp;<i *ngIf="!enabled">(disabled)</i>
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <mat-checkbox *ngFor="let h of hooks" [value]="h.id" [(ngModel)]="h.selected"
-                (change)="enabledHooksChanged()">{{h.label}}</mat-checkbox>
-
-  <mat-form-field class="full-width">
-    <input [disabled]="!enabled" matInput placeholder="Base url" [(ngModel)]="baseUrl">
-  </mat-form-field>
+  <mat-checkbox [(ngModel)]="enabled" (change)="this.changed.emit({})">Enabled</mat-checkbox>
 
   <mat-form-field class="full-width">
     <mat-label>Authentication</mat-label>
@@ -21,8 +16,10 @@
     </mat-select>
   </mat-form-field>
 
-  <app-hook-basic [(value)]="basicData" *ngIf="authType === 'basic'" (valueChange)="this.changed.emit({})"
-                  [disabled]="!enabled"></app-hook-basic>
+  <mat-form-field *ngIf="authType === 'basic'" class="full-width">
+    <input matInput placeholder="Username" [(ngModel)]="basic.username" [disabled]="!enabled" (change)="this.changed.emit({})">
+  </mat-form-field>
+  <app-secret *ngIf="authType === 'basic'" [label]="'Password'" [disabled]="!enabled" [(value)]="basic.password" class="full-width"></app-secret>
 
   <mat-action-row>
     <button mat-button color="primary" (click)="nextStep.emit({})">Next</button>

@@ -19,11 +19,12 @@ import {DatabasePostgresComponent} from './database-postgres/database-postgres.c
 import {DatabaseMongodbComponent} from './database-mongodb/database-mongodb.component';
 import {CallbackComponent} from './callback/callback.component';
 import {HookComponent} from './hook/hook.component';
-import {HookEscherComponent} from './hook-escher/hook-escher.component';
 import {HookBasicComponent} from './hook-basic/hook-basic.component';
 import {EscherComponent} from './escher/escher.component';
 import {HealthcheckComponent} from './healthcheck/healthcheck.component';
 import {JwtComponent} from './jwt/jwt.component';
+import { LdapApiComponent } from './ldap-api/ldap-api.component';
+import { EscherServiceComponent } from './escher-service/escher-service.component';
 
 @NgModule({
   declarations: [
@@ -42,11 +43,12 @@ import {JwtComponent} from './jwt/jwt.component';
     DatabaseMongodbComponent,
     CallbackComponent,
     HookComponent,
-    HookEscherComponent,
     HookBasicComponent,
     EscherComponent,
     HealthcheckComponent,
-    JwtComponent
+    JwtComponent,
+    LdapApiComponent,
+    EscherServiceComponent
   ],
   imports: [
     BrowserModule,

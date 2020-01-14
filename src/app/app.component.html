@@ -20,6 +20,16 @@
       (opened)="setStep(email)"
       (changed)="refresh()"
     ></app-email>
+    <app-jwt
+      #emailProviderJwt
+      name="Email Provider"
+      desc="(for Email-Pass)"
+      [(value)]="model.jwt.email"
+      [expanded]="step === emailProviderJwt"
+      (nextStep)="nextStep()"
+      (opened)="setStep(emailProviderJwt)"
+      (valueChange)="refresh()"
+    ></app-jwt>
     <app-amqp
       #amqp
       [expanded]="step === amqp"
@@ -34,6 +44,32 @@
       (opened)="setStep(ldap)"
       (changed)="refresh()"
     ></app-ldap>
+    <app-ldap-api
+      #ldapApi
+      [expanded]="step === ldapApi"
+      (nextStep)="nextStep()"
+      (opened)="setStep(ldapApi)"
+      (changed)="refresh()"
+    ></app-ldap-api>
+    <app-jwt
+      #ldapApiJwt
+      name="LDAP Api"
+      desc="(for LDAP api)"
+      [(value)]="model.jwt.ldapApi"
+      [expanded]="step === ldapApiJwt"
+      (nextStep)="nextStep()"
+      (opened)="setStep(ldapApiJwt)"
+      (valueChange)="refresh()"
+    ></app-jwt>
+    <app-escher-service
+      #ldapApiEscher
+      name="LDAP Api"
+      desc="(for LDAP api)"
+      [expanded]="step === ldapApiEscher"
+      (nextStep)="nextStep()"
+      (opened)="setStep(ldapApiEscher)"
+      (changed)="refresh()"
+    ></app-escher-service>
     <app-oauth2
       #oauth2
       [expanded]="step === oauth2"
@@ -75,6 +111,16 @@
       (opened)="setStep(totp)"
       (changed)="refresh()"
     ></app-totp>
+    <app-jwt
+      #totpProviderJwt
+      name="TOTP Provider"
+      desc="(for TOTP)"
+      [(value)]="model.jwt.totp"
+      [expanded]="step === totpProviderJwt"
+      (nextStep)="nextStep()"
+      (opened)="setStep(totpProviderJwt)"
+      (valueChange)="refresh()"
+    ></app-jwt>
     <app-database
       #database
       [expanded]="step === database"
@@ -106,6 +152,15 @@
       [(value)]="model.jwt.hook"
       (valueChange)="refresh()"
     ></app-jwt>
+    <app-escher-service
+      #hookEscher
+      name="HOOK"
+      desc="(hook service auth)"
+      [expanded]="step === hookEscher"
+      (nextStep)="nextStep()"
+      (opened)="setStep(hookEscher)"
+      (changed)="refresh()"
+    ></app-escher-service>
     <app-escher
       #escher
       [expanded]="step === escher"
@@ -138,26 +193,6 @@
       [expanded]="step === longTermJwt"
       (nextStep)="nextStep()"
       (opened)="setStep(longTermJwt)"
-      (valueChange)="refresh()"
-    ></app-jwt>
-    <app-jwt
-      #emailProviderJwt
-      name="Email Provider"
-      desc="(for Email-Pass)"
-      [(value)]="model.jwt.email"
-      [expanded]="step === emailProviderJwt"
-      (nextStep)="nextStep()"
-      (opened)="setStep(emailProviderJwt)"
-      (valueChange)="refresh()"
-    ></app-jwt>
-    <app-jwt
-      #totpProviderJwt
-      name="TOTP Provider"
-      desc="(for TOTP)"
-      [(value)]="model.jwt.totp"
-      [expanded]="step === totpProviderJwt"
-      (nextStep)="nextStep()"
-      (opened)="setStep(totpProviderJwt)"
       (valueChange)="refresh()"
     ></app-jwt>
   </mat-accordion>
