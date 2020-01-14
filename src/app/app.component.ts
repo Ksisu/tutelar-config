@@ -149,6 +149,7 @@ export class AppComponent implements OnInit {
 
   setStep(element) {
     this.step = element;
+    this.scrollToStep();
   }
 
   nextStep() {
@@ -158,6 +159,13 @@ export class AppComponent implements OnInit {
       nextStepIdx = (nextStepIdx + 1) % stepsLength;
     }
     this.step = this.steps[nextStepIdx];
+  }
+
+  scrollToStep() {
+    const stepHeight = 48;
+    const idx = this.steps.indexOf(this.step);
+    const scrollTo = (idx === -1) ? 0 : stepHeight * idx;
+    window.scrollTo(0, scrollTo);
   }
 
   refresh() {
@@ -454,7 +462,7 @@ export class AppComponent implements OnInit {
     let result = '';
     result += 'tracer {\n';
     if (!this.model.tracer.enabled) {
-      result += '  client = "off\n"';
+      result += '  client = "off"\n';
     } else {
       result += '  client = "jeager"\n';
       result += `  serviceName = "${this.model.tracer.serviceName}"\n`;

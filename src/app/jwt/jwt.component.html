@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="expanded" (opened)="opened.emit({})" [disabled]="disabled">
+<mat-expansion-panel [expanded]="expanded" (afterExpand)="opened.emit({})" [disabled]="disabled">
   <mat-expansion-panel-header>
     <mat-panel-title>
       JWT - {{name}}
