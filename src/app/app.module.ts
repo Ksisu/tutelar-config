@@ -26,6 +26,7 @@ import {JwtComponent} from './jwt/jwt.component';
 import {LdapApiComponent} from './ldap-api/ldap-api.component';
 import {EscherServiceComponent} from './escher-service/escher-service.component';
 import {ConfigResultComponent} from './config-generator/config-result.component';
+import {HelloComponent} from './hello/hello.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {ConfigResultComponent} from './config-generator/config-result.component'
     JwtComponent,
     LdapApiComponent,
     EscherServiceComponent,
-    ConfigResultComponent
+    ConfigResultComponent,
+    HelloComponent
   ],
   imports: [
     BrowserModule,

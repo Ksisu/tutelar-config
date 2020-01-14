@@ -1,5 +1,11 @@
 <div class="container">
   <mat-accordion>
+    <app-hello
+      #hello
+      [expanded]="step === hello"
+      (nextStep)="nextStep()"
+      (opened)="setStep(hello)"
+    ></app-hello>
     <app-providers
       #providers
       [expanded]="step === providers"

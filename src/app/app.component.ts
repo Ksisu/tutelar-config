@@ -17,6 +17,7 @@ import {JwtComponent, JwtData} from './jwt/jwt.component';
 import {LdapApiComponent} from './ldap-api/ldap-api.component';
 import {EscherServiceComponent} from './escher-service/escher-service.component';
 import {ConfigResultComponent} from './config-generator/config-result.component';
+import {HelloComponent} from './hello/hello.component';
 
 @Component({
   selector: 'app-root',
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
     }
   };
 
+  @ViewChild('hello', {static: true}) helloComp: HelloComponent;
   @ViewChild('providers', {static: true}) providersComp: ProvidersComponent;
   @ViewChild('passwordDifficultyChecker', {static: true}) passwordDifficultyCheckerComp: PasswordDifficultyCheckerComponent;
   @ViewChild('email', {static: true}) emailComp: EmailComponent;
@@ -85,8 +87,8 @@ export class AppComponent implements OnInit {
   steps: any[] = [];
 
   ngOnInit(): void {
-    this.step = this.providersComp;
     this.steps = [
+      this.helloComp,
       this.providersComp,
       this.passwordDifficultyCheckerComp,
       this.emailComp,
@@ -113,6 +115,7 @@ export class AppComponent implements OnInit {
       this.longTermJwtComp,
       this.resultComp,
     ];
+    this.step = this.steps[0];
     this.refresh();
   }
 
