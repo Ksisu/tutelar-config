@@ -295,7 +295,6 @@ export class AppComponent implements OnInit {
     result += this.generateTotpConfig();
     result += this.generateExpirationConfig();
     result += this.generateTracerConfig();
-    result += this.generateAkkaConfig();
     this.resultComp.result = result;
   }
 
@@ -636,21 +635,5 @@ export class AppComponent implements OnInit {
     result += this.generateOneExpirationConfig('totp', this.model.expiration.totp);
     result += '}\n';
     return result;
-  }
-
-  generateAkkaConfig() {
-    return 'akka {\n' +
-      '  loggers = ["akka.event.slf4j.Slf4jLogger"]\n' +
-      '  loglevel = "DEBUG"\n' +
-      '  logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"\n' +
-      '  http {\n' +
-      '    client {\n' +
-      '      idle-timeout = 120 s\n' +
-      '    }\n' +
-      '    host-connection-pool {\n' +
-      '      idle-timeout = 150 s\n' +
-      '    }\n' +
-      '  }\n' +
-      '}\n';
   }
 }
